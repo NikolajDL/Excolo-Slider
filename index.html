@@ -9,11 +9,24 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
+	
+	
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
     <title>Excoloslider by Excolo</title>
+	
+	
+    <script src="javascripts/jquery-1.9.1.min.js"></script>
+    <script src="javascripts/jquery.excoloSlider.debug.js"></script>
+    <script>
+        $(function () {
+            $(function () {
+                $("#sliderA").excoloSlider();
+            });
+        });
+    </script>
   </head>
 
   <body>
@@ -52,6 +65,35 @@
 <h1>Configuration</h1>
 
 <p>...work in progress..</p>
+
+<h1>Examples</h1>
+
+<h2>Default Slider</h2>
+<div id="sliderA">
+	<img src="images/image1.jpg" />
+	<img src="images/image2.jpg" />
+	<img src="images/image3.jpg" />
+	<img src="images/image4.jpg" />
+	<img src="images/image5.jpg" />
+	<img src="images/image6.jpg" />
+	<img src="images/image7.jpg" />
+	<img src="images/image8.jpg" />
+</div>
+<p>This slider is setup with default settings.</p>
+			
+<ul>
+	<li>Auto Play is on</li>
+	<li>Auto Size is on</li>
+	<li>Repeat is on</li>
+	<li>Keyboard navigation is on</li>
+	<li>Touch navigation is on</li>
+	<li>Pause on hover is on</li>
+	<li>CSS3 transitions is on</li>
+	<li>Delay is 0ms</li>
+	<li>Slide interval is 3000ms (3s)</li>
+</ul>
+<hr />
+
         </section>
 
         <aside id="sidebar">
