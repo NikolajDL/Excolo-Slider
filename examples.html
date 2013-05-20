@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Excolo Slider - yet another jQuery slider/caroussel plugin</title>
+
+    <link href="css/reset.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+
+    <noscript>
+        <link rel="stylesheet" href="/css/mobile.min.css" />
+    </noscript>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery.excoloSlider.debug.js"></script>
+    <script>
+        // Settings for Adaptive.js
+        var ADAPT_CONFIG = {
+            path: 'css/',
+            dynamic: true,
+            range: [
+                '0px    to 760px  = mobile.min.css',
+                '760px  to 980px  = 720.min.css',
+                '980px            = 960.min.css'
+            ]
+        };
+
+    </script>
+    <script src="js/adapt.min.js"></script>
+    
+    <script>
+        $(function () {
+            $(function () {
+                $("#sliderA").excoloSlider();
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+		<div class="container_12">
+			<div class="grid_2 suffix_10"><a href="http://excolo.github.io/Excolo-Slider/" title="Click here to go to the GitHub page for this plugin"><img alt="Slider logo" src="images/logo.png" /></a></div>
+		</div>
+	</header>
+
+	<div class="h20"></div>
+	
+	<div class="container_12">
+		<div class="grid_8">
+		
+			<div id="sliderA">
+				<img src="images/image1.jpg" />
+				<img src="images/image2.jpg" />
+				<img src="images/image3.jpg" />
+				<img src="images/image4.jpg" />
+				<img src="images/image5.jpg" />
+				<img src="images/image6.jpg" />
+				<img src="images/image7.jpg" />
+				<img src="images/image8.jpg" />
+			</div>
+			
+			<div class="h10"></div>
+			
+		</div>
+
+		<div class="grid_4">
+			<h2>Default Slider</h2>
+			<p>This slider is setup with default settings.</p>
+			
+			<ul>
+				<li>Auto Play is on</li>
+				<li>Auto Size is on</li>
+				<li>Repeat is on</li>
+				<li>Keyboard navigation is on</li>
+				<li>Touch navigation is on</li>
+				<li>Pause on hover is on</li>
+				<li>CSS3 transitions is on</li>
+				<li>Delay is 0ms</li>
+				<li>Slide interval is 3000ms (3s)</li>
+			</ul>
+		</div
+		
+		<div class="h20"></div>
+
+	</div>
+
+</body>
+</html>
