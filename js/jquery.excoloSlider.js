@@ -11,7 +11,7 @@
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-License.txt
  */
 ;(function ($, window, document, undefined) {
-    var version = "0.1.1";
+    var version = "0.1.2";
     var pluginName = "excoloSlider";
 
 
