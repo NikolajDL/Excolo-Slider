@@ -7,7 +7,8 @@
  * Author: Nikolaj Dam Larsen
  * Version: 0.8.0 (15-MAY-2013)
  *
- * Licensed under the MIT license
+ * Released under the MIT license
+ * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-License.txt
  */
 ;(function ($, window, document, undefined) {
     var version = "0.8.0";
