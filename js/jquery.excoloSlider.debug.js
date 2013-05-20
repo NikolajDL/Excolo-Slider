@@ -2,7 +2,7 @@
  * Excolo Slider - A simple jquery slider
  *
  * Examples and documentation at: 
- * http://excolo.github.io/ExcoloSlider
+ * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
  * Version: 0.1.0 (19-MAY-2013)
