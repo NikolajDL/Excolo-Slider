@@ -82,6 +82,7 @@ this._log("begin initialization");
             if (typeof TouchEvent !== "undefined") $.data(this, "touchEnabled", true);
 
             // Create helper html objects
+			base.$elem.css({ position: "relative" });
             base.$elem.wrapInner("<div class='slide-wrapper'>", base.$elem).children();
             base.$elem.wrapInner("<div class='slide-container'>", $(".slide-wrapper", base.$elem)).children();
 
