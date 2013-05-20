@@ -1,10 +1,13 @@
 ﻿/*!
  * Excolo Slider - A simple jquery slider
- * Examples and documentation at: http://webpage
+ *
+ * Examples and documentation at: 
+ * https://github.com/Excolo/ExcoloSlider
+ *
  * Author: Nikolaj Dam Larsen
- * Version: 0.8.0 (07-MAY-2013)
+ * Version: 0.8.0 (15-MAY-2013)
+ *
  * Licensed under the MIT license
-  * http://license
  */
 ;(function ($, window, document, undefined) {
     var version = "0.8.0";
