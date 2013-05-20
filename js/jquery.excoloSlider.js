@@ -54,8 +54,8 @@
             animationCssTransitions: true,
             animationDuration: 500,
             animationTimingFunction: "linear",
-            activeSlideClass: "es-active",
-            debug: true
+            activeSlideClass: "es-active"
+//            debug: true,
         },
 
         /* Initialization function
@@ -66,7 +66,7 @@
             // Introduce defaults that can be extended either globally or using an object literal. 
             base.config = $.extend({}, base.defaults, base.options, base.metadata);
 
-this._log("begin initialization");
+//this._log("begin initialization");
 
             // Initialize plugin data
             base.data = $.data(base);
@@ -162,14 +162,14 @@ this._log("begin initialization");
                 }, base.config.delay);
             }          
 
-this._log("end initialization");
+//this._log("end initialization");
             return this;
         },
 
         /* Move to previous slide
         **********************************************************/
         previous: function () {
-this._log("move to previous slide");
+//this._log("move to previous slide");
 
             // Defined variable to avoid scope problems
             var base = this;
@@ -204,7 +204,7 @@ this._log("move to previous slide");
         /* Move to next slide
         **********************************************************/
         next: function () {
-this._log("move to next slide");
+//this._log("move to next slide");
             // Defined variable to avoid scope problems
             var base = this;
 
@@ -237,7 +237,7 @@ this._log("move to next slide");
         /* A method to start the slideshow
         **********************************************************/
         start: function () {
-this._log("start slideshow");
+//this._log("start slideshow");
             // Defined variable to avoid scope problems
             var base = this;
 
@@ -281,7 +281,7 @@ this._log("start slideshow");
         /* A method to stop playing the slideshow
         **********************************************************/
         stop: function () {
-this._log("stop slideshow");
+//this._log("stop slideshow");
             // Defined variable to avoid scope problems
             var base = this;
 
@@ -305,7 +305,7 @@ this._log("stop slideshow");
         /* Simply jump to a given slide without transistion
         **********************************************************/
         gotoSlide: function (slideIndex) {
-            this._log("gotoSlide: Slide with index: " + slideIndex);
+ //this._log("gotoSlide: Slide with index: " + slideIndex);
             // Define variable to avoid scope problems
             var base = this;
 
@@ -419,7 +419,7 @@ this._log("stop slideshow");
             $.data(base, "touchedX", eventData.pageX);
             $.data(base, "touchedY", eventData.pageY);
 
-this._log("_onTouchStart: touching stuff at ("+base.data.touchedX+","+base.data.touchedY+")");
+//this._log("_onTouchStart: touching stuff at ("+base.data.touchedX+","+base.data.touchedY+")");
 
             // Stop playing 
             if (base.data.isPlaying)
@@ -484,7 +484,7 @@ this._log("_onTouchStart: touching stuff at ("+base.data.touchedX+","+base.data.
         /* Handling the end of the touch
         **********************************************************/
         _onTouchEnd: function (e) {
-this._log("_onTouchEnd: stopped touching stuff");
+//this._log("_onTouchEnd: stopped touching stuff");
             // Define variable to avoid scope problems
             var base = this;
 
@@ -586,7 +586,7 @@ this._log("_onTouchEnd: stopped touching stuff");
             if (bufferShortage < 0)
                 bufferShortage = base.data.totalslides % 2 == 0 ? bufferShortage + 1 : bufferShortage;
 
-base._log("_alignSlide - GoalPosition: " + goalPosition + " | Total: " + base.data.totalslides + " | Half: " + half + " | Buffer: " + bufferLength + " | BufferShort: " + bufferShortage);
+//base._log("_alignSlide - GoalPosition: " + goalPosition + " | Total: " + base.data.totalslides + " | Half: " + half + " | Buffer: " + bufferLength + " | BufferShort: " + bufferShortage);
 
             // Align slides according to bufferShortage
             for (var i = 0; i < Math.abs(bufferShortage); i++) {
@@ -599,7 +599,7 @@ base._log("_alignSlide - GoalPosition: " + goalPosition + " | Total: " + base.da
                 var highest = [].reduce.call($slides, function (sml, cur) {
                     return $(sml).offset().left > $(cur).offset().left ? sml : cur;
                 });
-base._log("_alignSlide - Low: " + $(lowest).offset().left + " | Hi: " + $(highest).offset().left);
+//base._log("_alignSlide - Low: " + $(lowest).offset().left + " | Hi: " + $(highest).offset().left);
 
                 if(bufferShortage > 0)
                     $(lowest).css("left", Math.round($(highest).position().left + width));
@@ -621,7 +621,7 @@ base._log("_alignSlide - Low: " + $(lowest).offset().left + " | Hi: " + $(highes
             var currentSlideIndex = base.data.currentSlide;
 
 
-base._log("_slide: From: " + currentSlideIndex + " | To: " + nextSlideIndex);
+//base._log("_slide: From: " + currentSlideIndex + " | To: " + nextSlideIndex);
 
             // Jquery objects
             var $container = $(".slide-wrapper", base.$elem);
@@ -638,7 +638,7 @@ base._log("_slide: From: " + currentSlideIndex + " | To: " + nextSlideIndex);
             // Get the position of the slide we are heading for
             var leftPos = Math.round($slide.position().left);
 
-base._log("_slide: CurrentPos: " + currentPos + " | GoalPos: " + leftPos);
+//base._log("_slide: CurrentPos: " + currentPos + " | GoalPos: " + leftPos);
 
             // ---
 
@@ -769,15 +769,15 @@ base._log("_slide: CurrentPos: " + currentPos + " | GoalPos: " + leftPos);
                 i++;
             }
             return false;
-        },
+        }
 
         /* Debug function
-        **********************************************************/
+        *********************************************************
         _log: function (message) {
             // Only log if in debug mode
             if (this.config.debug)
                 console.log(pluginName + ": " + message);
-        }
+        },*/
     }   
 
     Plugin.defaults = Plugin.prototype.defaults;
