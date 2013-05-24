@@ -30,9 +30,11 @@ Configuration
 
 Examples
 ============
-...work in progress..
+Examples can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
 
 
 License
 ============
-Copyright (c) 2013 Nikolaj Dam Larsen. Released under the MIT license.
+Free for both personal and commercial use.
+
+Copyright (c) 2013 Nikolaj Dam Larsen. Released under the [MIT license](https://github.com/Excolo/Excolo-Slider/blob/master/MIT-License.txt).
