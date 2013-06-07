@@ -5,19 +5,21 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 0.1.4 (19-MAY-2013)
+ * Version: 0.2.3 (07-JUNE-2013)
  *
  * Released under the MIT license
- * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-License.txt
+ * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
  */
-;(function ($, window, document, undefined) {
-    var version = "0.1.4";
-    var pluginName = "excoloSlider";
+; (function ($, window, document, undefined) {
+    var version, pluginName, Plugin;
+
+    version = "0.2.1";
+    pluginName = "excoloSlider";
 
 
     /* Plugin Definition
     **************************************************************/
-    var Plugin = (function () {
+    Plugin = (function () {
         function Plugin(elem, options) {
             this.elem = elem;
             this.$elem = $(elem);
@@ -44,6 +46,7 @@
             autoSize: true,
             keyboardNav: true,
             touchNav: true,
+            mouseNav: true,
             startSlide: 1,
             autoPlay: true,
             delay: 0,
@@ -55,18 +58,16 @@
             animationDuration: 500,
             animationTimingFunction: "linear",
             activeSlideClass: "es-active"
-//            debug: true,
         },
 
         /* Initialization function
         **********************************************************/
         init: function () {
+            var base, maxHeight;
             // Defined variable to avoid scope problems
-            var base = this;
+            base = this;
             // Introduce defaults that can be extended either globally or using an object literal. 
             base.config = $.extend({}, base.defaults, base.options, base.metadata);
-
-//this._log("begin initialization");
 
             // Initialize plugin data
             base.data = $.data(base);
@@ -78,6 +79,7 @@
             $.data(base, "isAnimating", false);
             $.data(base, "playPaused", false);
             $.data(base, "justTouched", false);
+            $.data(base, "isMoving", false);
             $.data(base, "width", base.config.width);
             if (typeof TouchEvent !== "undefined") $.data(this, "touchEnabled", true);
 
@@ -99,7 +101,7 @@
             });
 
             // Set the height of the wrapper to fit the max height of the slides
-            var maxHeight = $(".slide-wrapper", base.$elem).children().height();
+            maxHeight = $(".slide-wrapper", base.$elem).children().height();
             $(".slide-wrapper", base.$elem).css({
                 position: "relative",
                 left: 0,
@@ -114,13 +116,39 @@
             // Setup touch event handlers
             if (base.config.touchNav && base.data.touchEnabled) {
                 $(".slide-wrapper", base.$elem).on("touchstart", function (e) {
-                    return base._onTouchStart(e);
+                    var eventData = e.originalEvent.touches[0];
+                    base._onMoveStart(eventData.pageX, eventData.pageY);
+                    return e.stopPropagation();
                 });
                 $(".slide-wrapper", base.$elem).on("touchmove", function (e) {
-                    return base._onTouchMove(e);
+                    var eventData = e.originalEvent.touches[0];
+                    e.preventDefault();
+                    base._onMove(eventData.pageX, eventData.pageY);
+                    return e.stopPropagation();
                 });
                 $(".slide-wrapper", base.$elem).on("touchend", function (e) {
-                    return base._onTouchEnd(e);
+                    base._onMoveEnd();
+                    return e.stopPropagation();
+                });
+            }
+            // Setup mouse event handlers
+            if (base.config.mouseNav) {
+                $(".slide-wrapper", base.$elem).css("cursor", "pointer");
+                $(".slide-wrapper", base.$elem).on("dragstart", function (e) { return false; });
+                $(".slide-wrapper", base.$elem).on("mousedown", function (e) {
+                    base._onMoveStart(e.clientX, e.clientY);
+                    return e.stopPropagation();
+                });
+                // The mousemove event should also work outside the slide-wrapper container
+                $(window).on("mousemove", function (e) {
+                    e.preventDefault();
+                    base._onMove(e.clientX, e.clientY);
+                    return e.stopPropagation();
+                });
+                // The mouseup event should also work outside the slide-wrapper container
+                $(window).on("mouseup", function (e) {
+                    base._onMoveEnd();
+                    return e.stopPropagation();
                 });
             }
 
@@ -162,23 +190,21 @@
                 }, base.config.delay);
             }          
 
-//this._log("end initialization");
             return this;
         },
 
         /* Move to previous slide
         **********************************************************/
         previous: function () {
-//this._log("move to previous slide");
-
+            var base, nextSlide;
             // Defined variable to avoid scope problems
-            var base = this;
+            base = this;
 
             // Store slide direction in plugin data
             $.data(base, "slideDirection", "previous");
 
             // Find next index
-            var nextSlide = (base.data.nextSlide - 1) % base.data.totalslides;
+            nextSlide = (base.data.nextSlide - 1) % base.data.totalslides;
 
             // Stop here if we've reached past the beginning and aren't on repeat 
             if (!base.config.repeat && (base.data.nextSlide - 1) < 0)
@@ -204,15 +230,15 @@
         /* Move to next slide
         **********************************************************/
         next: function () {
-//this._log("move to next slide");
+            var base, nextSlide;
             // Defined variable to avoid scope problems
-            var base = this;
+            base = this;
 
             // Store slide direction in plugin data
             $.data(base, "slideDirection", "next");
             
             // Find next index
-            var nextSlide = (base.data.nextSlide + 1) % base.data.totalslides;
+            nextSlide = (base.data.nextSlide + 1) % base.data.totalslides;
 
             // Stop here if we've reached past the end and aren't on repeat 
             if (!base.config.repeat && (base.data.nextSlide + 1) > (base.data.totalslides - 1)) {
@@ -237,19 +263,19 @@
         /* A method to start the slideshow
         **********************************************************/
         start: function () {
-//this._log("start slideshow");
+            var base, $preContainer, timer;
             // Defined variable to avoid scope problems
-            var base = this;
+            base = this;
 
             // Jquery objects
-            var $preContainer = $(".slide-container", base.$elem);
+            $preContainer = $(".slide-container", base.$elem);
 
             // If we're already playing, clear previous interval
             if (base.data.isPlaying && base.data.playTimer)
                 clearInterval(base.data.playTimer);
 
             // Setup the play timer
-            var timer = setInterval((function () {
+            timer = setInterval((function () {
 
                 // Well slide already
                 if (base.config.playReverse)
@@ -281,12 +307,12 @@
         /* A method to stop playing the slideshow
         **********************************************************/
         stop: function () {
-//this._log("stop slideshow");
+            var base, $preContainer;
             // Defined variable to avoid scope problems
-            var base = this;
+            base = this;
 
             // Jquery objects
-            var $preContainer = $(".slide-container", base.$elem);
+            $preContainer = $(".slide-container", base.$elem);
 
             // Stop the interval timer
             clearInterval(base.data.playTimer);
@@ -305,22 +331,22 @@
         /* Simply jump to a given slide without transistion
         **********************************************************/
         gotoSlide: function (slideIndex) {
- //this._log("gotoSlide: Slide with index: " + slideIndex);
+            var base, nextSlideIndex, $container, $slides, $slide, leftPos;
             // Define variable to avoid scope problems
-            var base = this;
+            base = this;
 
             // Data
             $.data(base, "nextSlide", (slideIndex) % base.data.totalslides);
-            var nextSlideIndex = (slideIndex) % base.data.totalslides;
+            nextSlideIndex = (slideIndex) % base.data.totalslides;
             $.data(base, "currentSlide", nextSlideIndex);
 
             // Jquery objects
-            var $container = $(".slide-wrapper", base.$elem);
-            var $slides = $container.children();
-            var $slide = $container.children(":eq(" + nextSlideIndex + ")");
+            $container = $(".slide-wrapper", base.$elem);
+            $slides = $container.children();
+            $slide = $container.children(":eq(" + nextSlideIndex + ")");
 
             // Get position of goal slide
-            var leftPos = $slide.position().left;
+            leftPos = $slide.position().left;
 
             // Clear old active class
             $slides.removeClass(base.config.activeSlideClass);
@@ -355,19 +381,20 @@
         /* Position and align the slides to prepare for sliding
         **********************************************************/
         _prepareslides: function () {
+            var base, $container, $slides, width, half, i;
 
             // Define variable to avoid scope problems
-            var base = this;
+            base = this;
 
             // Jquery objects
-            var $container = $(".slide-wrapper", base.$elem);
-            var $slides = $container.children();
+            $container = $(".slide-wrapper", base.$elem);
+            $slides = $container.children();
 
             // Config
-            var width = base.data.width;
+            width = base.data.width;
 
-            var half = Math.floor(base.data.totalslides / 2);
-            var i = 0;
+            half = Math.floor(base.data.totalslides / 2);
+            i = 0;
             $slides.each(function () {
                 // Move first half the slides ahead
                 $(this).css({
@@ -386,10 +413,11 @@
         /* Handler for keyboard events
         **********************************************************/
         _onKeyboardNav: function (e) {
+            var base, key;
             // Define variable to avoid scope problems
-            var base = this;
+            base = this;
 
-            var key = e.which;
+            key = e.which;
             switch (key) {
                 case 37:
                     base.previous();
@@ -403,23 +431,19 @@
             e.preventDefault();
         },
 
-        /* Handling the initial touch
+        /* Handling the start of the movement
         **********************************************************/
-        _onTouchStart: function (e) {
+        _onMoveStart: function (x, y) {
             // Define variable to avoid scope problems
             var base = this;
 
-            // Grab eventdata
-            var eventData = e.originalEvent.touches[0];
-            // Get the browser engine prefix - if any
-            var prefix = base.data.browserEnginePrefix.css;
-
             // Setup touchrelated data
             $.data(base, "touchTime", Number(new Date()));
-            $.data(base, "touchedX", eventData.pageX);
-            $.data(base, "touchedY", eventData.pageY);
+            $.data(base, "touchedX", x);
+            $.data(base, "touchedY", y);
 
-//this._log("_onTouchStart: touching stuff at ("+base.data.touchedX+","+base.data.touchedY+")");
+            // The mouse is down.
+            $.data(base, "isMoving", true);
 
             // Stop playing 
             if (base.data.isPlaying)
@@ -427,45 +451,42 @@
                 $.data(base, "playPaused", true);
                 base.stop();
             }
-
-            return e.stopPropagation();
         },
 
-        /* Handling the touch movement
+        /* Handling the movement
         **********************************************************/
-        _onTouchMove: function (e) {
+        _onMove: function (x, y) {
+            var base, $container, $slide, leftPos, prefix, translateX, limit;
             // Define variable to avoid scope problems
-            var base = this;
+            base = this;
 
-            // Grab eventdata
-            var eventData = e.originalEvent.touches[0];
+            // Only move if, we're actuall "moving"
+            if (!base.data.isMoving)
+                return;
 
             // Jquery objects
-            var $container = $(".slide-wrapper", base.$elem);
+            $container = $(".slide-wrapper", base.$elem);
 
             // Verify whether we're scrolling or sliding
-            $.data(base, "scrolling", Math.abs(eventData.pageX - base.data.touchedX) < Math.abs(eventData.pageY - base.data.touchedY));
-
+            $.data(base, "scrolling", Math.abs(x - base.data.touchedX) < Math.abs(y - base.data.touchedY));
 
             // If we're not scrolling, we perform the translation
             // ...also - wait for any animation to finish
             // (we cant slide while animating)
             if (!base.data.scrolling && !base.data.isAnimating)
             {
-                e.preventDefault();
-
                 // Get the position of the slide we are heading for
-                var $slide = $container.children(":eq(" + base.data.nextSlide + ")");
-                var leftPos = $slide.position().left;
+                $slide = $container.children(":eq(" + base.data.nextSlide + ")");
+                leftPos = $slide.position().left;
 
                 // Get the browser engine prefix - if any
-                var prefix = base.data.browserEnginePrefix.css;
+                prefix = base.data.browserEnginePrefix.css;
 
                 // Get the delta movement to use for translation
-                var translateX = eventData.pageX - base.data.touchedX;
+                translateX = x - base.data.touchedX;
 
                 // Limit if not repeating
-                var limit = base.data.width * 0.1;
+                limit = base.data.width * 0.1;
                 if (!base.config.repeat)
                 {
                     if (base.data.currentSlide <= 0 && -translateX < -limit)
@@ -477,37 +498,32 @@
                 // Transformation
                 base._transition(-leftPos + translateX, 0);
             }
-
-            return e.stopPropagation();
         },
 
-        /* Handling the end of the touch
+        /* Handling the end of the movement
         **********************************************************/
-        _onTouchEnd: function (e) {
-//this._log("_onTouchEnd: stopped touching stuff");
+        _onMoveEnd: function () {
+            var base, $container, $slide, leftPos, half, tenth, svipe;
             // Define variable to avoid scope problems
-            var base = this;
-
-            // Grab eventdata
-            var eventData = e.originalEvent.touches[0];
+            base = this;
 
             // Jquery objects
-            var $container = $(".slide-wrapper", base.$elem);
+            $container = $(".slide-wrapper", base.$elem);
 
             // Set that we've just touched something such that when we slide next
             // the sliding duration is temporary halved.
             $.data(base, "justTouched", true);
 
             // Get the position of the slide we are heading for
-            var $slide = $container.children(":eq(" + base.data.nextSlide + ")");
-            var leftPos = $slide.position().left;
+            $slide = $container.children(":eq(" + base.data.nextSlide + ")");
+            leftPos = $slide.position().left;
 
             // If we've slided at least half the width of the slide - slide to next
             // Also if we've slided 10% of the width within 1/4 of a second, 
             // we slide to the next
-            var half = base.data.width * 0.5;
-            var tenth = base.data.width * 0.1;
-            var svipe = (Number(new Date()) - base.data.touchTime < 250);
+            half = base.data.width * 0.5;
+            tenth = base.data.width * 0.1;
+            svipe = (Number(new Date()) - base.data.touchTime < 250);
 
             if (!base.config.repeat
                 && ($container.position().left < -(leftPos) && base.data.currentSlide >= (base.data.totalslides - 1)
@@ -529,11 +545,12 @@
             // Align the slides to prepare for the next slide
             base._alignSlides(leftPos);
 
+            // We're no longer moving
+            $.data(base, "isMoving", false);
+
             // Restart playing playing 
             if(base.data.playPaused)
                 base.start();
-
-            return e.stopPropagation();
         },
 
         /* Make an "endless" line of slides
@@ -544,20 +561,21 @@
         //          if number of slides is low. 
         _alignSlides : function(goalPosition)
         {
+            var base, $container, $slides, $slide, half, width, bufferLength, bufferShortage, i, lowest, highest;
             // Define variable to avoid scope problems
-            var base = this;
+            base = this;
 
             if (!base.config.repeat)
                 return;
 
             // Jquery objects
-            var $container = $(".slide-wrapper", base.$elem);
-            var $slides = $container.children();
+            $container = $(".slide-wrapper", base.$elem);
+            $slides = $container.children();
 
             // Retrieve goalPosition if undefined
             if (goalPosition === undefined)
             {
-                var $slide = $container.children(":eq(" + base.data.nextSlide + ")");
+                $slide = $container.children(":eq(" + base.data.nextSlide + ")");
                 goalPosition = $slide.position().left;
             }
 
@@ -566,40 +584,36 @@
 
 
             // Half of the total slides
-            var half = Math.ceil(base.data.totalslides / 2);
+            half = Math.ceil(base.data.totalslides / 2);
 
             // Config
-            var width = base.data.width;
+            width = base.data.width;
 
             // Get number of $slides after/before 'goalPosition' - this is our buffer.
             // If our buffer is below half the total $slides, we need to increase it.
-            var bufferLength = 0;
+            bufferLength = 0;
             $slides.each(function () {
                 var l = $(this).position().left;
                 if (l > goalPosition - width)
                     bufferLength++;
             });
             // Calculate how much short on buffer we are
-            var bufferShortage = half - bufferLength;
+            bufferShortage = half - bufferLength;
 
             // We're sliding the other direction thus moving a buffer to the other side
             if (bufferShortage < 0)
                 bufferShortage = base.data.totalslides % 2 == 0 ? bufferShortage + 1 : bufferShortage;
 
-//base._log("_alignSlide - GoalPosition: " + goalPosition + " | Total: " + base.data.totalslides + " | Half: " + half + " | Buffer: " + bufferLength + " | BufferShort: " + bufferShortage);
-
             // Align slides according to bufferShortage
-            for (var i = 0; i < Math.abs(bufferShortage); i++) {
-
+            for (i = 0; i < Math.abs(bufferShortage); i++) {
                 // Find the element with the lowest left position
-                var lowest = [].reduce.call($slides, function (sml, cur) {
+                lowest = [].reduce.call($slides, function (sml, cur) {
                     return $(sml).offset().left < $(cur).offset().left ? sml : cur;
                 });
                 // Find the element with the highest left position
-                var highest = [].reduce.call($slides, function (sml, cur) {
+                highest = [].reduce.call($slides, function (sml, cur) {
                     return $(sml).offset().left > $(cur).offset().left ? sml : cur;
                 });
-//base._log("_alignSlide - Low: " + $(lowest).offset().left + " | Hi: " + $(highest).offset().left);
 
                 if(bufferShortage > 0)
                     $(lowest).css("left", Math.round($(highest).position().left + width));
@@ -613,32 +627,28 @@
         /* Perform a slide
         **********************************************************/
         _slide: function () {
+            var base, nextSlideIndex, currentSlideIndex, $container, $slides, $slide, $currentSlide, activeSlideClass, width, currentPos, leftPos;
             // Define variable to avoid scope problems
-            var base = this;
+            base = this;
 
             // Data
-            var nextSlideIndex = base.data.nextSlide;
-            var currentSlideIndex = base.data.currentSlide;
-
-
-//base._log("_slide: From: " + currentSlideIndex + " | To: " + nextSlideIndex);
+            nextSlideIndex = base.data.nextSlide;
+            currentSlideIndex = base.data.currentSlide;
 
             // Jquery objects
-            var $container = $(".slide-wrapper", base.$elem);
-            var $slides = $container.children();
-            var $slide = $container.children(":eq(" + nextSlideIndex + ")");
-            var $currentSlide = $container.children(":eq(" + currentSlideIndex + ")");
+            $container = $(".slide-wrapper", base.$elem);
+            $slides = $container.children();
+            $slide = $container.children(":eq(" + nextSlideIndex + ")");
+            $currentSlide = $container.children(":eq(" + currentSlideIndex + ")");
 
             // Style variables
-            var activeSlideClass = base.config.activeSlideClass;
-            var width = base.data.width;
+            activeSlideClass = base.config.activeSlideClass;
+            width = base.data.width;
 
             // Get position of current slide
-            var currentPos = Math.round($currentSlide.position().left);
+            currentPos = Math.round($currentSlide.position().left);
             // Get the position of the slide we are heading for
-            var leftPos = Math.round($slide.position().left);
-
-//base._log("_slide: CurrentPos: " + currentPos + " | GoalPos: " + leftPos);
+            leftPos = Math.round($slide.position().left);
 
             // ---
 
@@ -682,10 +692,11 @@
         **********************************************************/
         _transition: function (leftPos, durationModifier)
         {
+            var base, $container, prefix, transform, duration, timing;
             // Define variable to avoid scope problems
-            var base = this;
+            base = this;
             // Jquery objects
-            var $container = $(".slide-wrapper", base.$elem);
+            $container = $(".slide-wrapper", base.$elem);
 
             // Limit duration modifier
             if (durationModifier === undefined || durationModifier < 0)
@@ -695,10 +706,10 @@
             //          for browser compatibility.
 
             // Select the css code based on browser engine
-            var prefix = base.data.browserEnginePrefix.css;
-            var transform = prefix + "Transform";
-            var duration = prefix + "TransitionDuration";
-            var timing = prefix + "TransitionTimingFunction";
+            prefix = base.data.browserEnginePrefix.css;
+            transform = prefix + "Transform";
+            duration = prefix + "TransitionDuration";
+            timing = prefix + "TransitionTimingFunction";
             /* ^ Hopefully this will be minimized better than having a lot of other stuff  */
 
             // Set style to activate the slide transition
@@ -710,8 +721,9 @@
         /* Auto-size the slider
         **********************************************************/
         _resize: function () {
+            var base, newwidth, ratio, newheight, maxHeight;
             // Define variable to avoid scope problems
-            var base = this;
+            base = this;
             
             // Stop playing
             if (base.data.isPlaying){
@@ -720,11 +732,11 @@
             }
 
             // Getting width from parent container
-            var newwidth = base.$elem.width();
+            newwidth = base.$elem.width();
             // Calculate W/H ratio
-            var ratio = base.config.height / base.config.width;
+            ratio = base.config.height / base.config.width;
             // Get height from W/H ratio
-            var newheight = newwidth * ratio;
+            newheight = newwidth * ratio;
 
             // Update width
             $.data(base, "width", newwidth);
@@ -736,7 +748,7 @@
             });
 
             // Set the height of the wrapper to fit the max height of the slides
-            var maxHeight = $(".slide-wrapper", base.$elem).children().height();
+            maxHeight = $(".slide-wrapper", base.$elem).children().height();
             $(".slide-wrapper", base.$elem).css({
                 height: maxHeight
             });
@@ -759,9 +771,10 @@
         /* Find out which browser engine is used
         **********************************************************/
         _getBrowserEnginePrefix: function () {
-            var transition = "Transition";
-            var vendor = ["Moz", "Webkit", "Khtml", "O", "ms"];
-            var i = 0;
+            var transition, vendor, i;
+            transition = "Transition";
+            vendor = ["Moz", "Webkit", "Khtml", "O", "ms"];
+            i = 0;
             while (i < vendor.length) {
                 if (typeof document.body.style[vendor[i] + transition] === "string") {
                     return { css: vendor[i] };
@@ -770,14 +783,6 @@
             }
             return false;
         }
-
-        /* Debug function
-        *********************************************************
-        _log: function (message) {
-            // Only log if in debug mode
-            if (this.config.debug)
-                console.log(pluginName + ": " + message);
-        },*/
     }   
 
     Plugin.defaults = Plugin.prototype.defaults;

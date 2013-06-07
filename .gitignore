@@ -1,6 +1,7 @@
 *.orig
 Thumbs.db
 ignored/
+testpage.html
 
 #################
 ## Eclipse
