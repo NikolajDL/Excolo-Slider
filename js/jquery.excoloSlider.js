@@ -27,8 +27,7 @@
 
             // This next line takes advantage of HTML5 data attributes
             // to support customization of the plugin on a per-element
-            // basis. For example,
-            // <div class='sliderA' data-plugin-options='{"navigation":"false"}'></div>
+            // basis. 
             this.metadata = this.$elem.data('plugin-options');
         }
         return Plugin;
