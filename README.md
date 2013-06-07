@@ -4,12 +4,11 @@ A simple jquery sliding plugin, supporting responsive design, keyboard and touch
 
 Under development - see issues. 
 
-(paused - work continues after June 7th 2013 - gotta concentrate on finishing my master thesis :-) )
-
 
 Features:
 - AutoPlay Slideshow
 - Keyboard slide navigation
+- Mouse slide navigation
 - Repeat when last slide is reached
 - Play the slideshow backwards
 - Auto adjust size initially and on browser resize, for responsive designs
@@ -37,4 +36,4 @@ License
 ============
 Free for both personal and commercial use.
 
-Copyright (c) 2013 Nikolaj Dam Larsen. Released under the [MIT license](https://github.com/Excolo/Excolo-Slider/blob/master/MIT-License.txt).
+Copyright (c) 2013 Nikolaj Dam Larsen. Released under the [MIT license](https://github.com/Excolo/Excolo-Slider/blob/master/MIT-LICENSE).
