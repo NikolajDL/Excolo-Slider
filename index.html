@@ -9,22 +9,25 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-	
-	
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <title>Excoloslider by Excolo</title>
+    <title>Excolo-Slider by Excolo</title>
 	
-	
+    
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+    <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>    
+    <script type="text/javascript">
+        SyntaxHighlighter.config.tagName = "code";
+    </script>
+
     <script src="javascripts/jquery-1.9.1.min.js"></script>
-    <script src="javascripts/jquery.excoloSlider.debug.js"></script>
+    <script src="javascripts/jquery.excoloSlider.min.js"></script>
     <script>
         $(function () {
-            $(function () {
-                $("#sliderA").excoloSlider();
-            });
+            $("#sliderA").excoloSlider();
         });
     </script>
   </head>
@@ -33,7 +36,7 @@
     <header>
       <div class="inner">
         <h1>Excolo Slider</h1>
-        <h2>A simple responsive, touch enabled jquery slider</h2>
+        <h2>A simple responsive, touch and mouse enabled jquery slider</h2>
         <a href="https://github.com/Excolo/Excolo-Slider" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
@@ -52,6 +55,7 @@
 			<ul>
 				<li>AutoPlay Slideshow</li>
 				<li>Keyboard slide navigation</li>
+				<li>Mouse slide navigation</li>
 				<li>Repeat when last slide is reached</li>
 				<li>Play the slideshow backwards</li>
 				<li>Auto adjust size initially and on browser resize, for responsive designs</li>
@@ -60,15 +64,182 @@
 
 			
 			<h1>Installation</h1>
+            <p>First you download the plugin by following one of the links in the sidebar, 
+            or by visiting <a href="https://github.com/Excolo/Excolo-Slider">Excolo-Slider on Github</a>.</p>
 
-			<p>...work in progress..</p>
+            <p>In the header of your website, you insert the references to jquery and the slider plugin:</p> 
+            <code class="brush: html; toolbar: false;">
+                <script src="javascripts/jquery-1.9.1.min.js"></script>
+                <script src="javascripts/jquery.excoloSlider.min.js"></script>
+            </code><p></p>
+            
+            <p>The HTML code for the slides is simply a div container, with any child objects being the slides:</p>
+            <code class="brush: html; toolbar: false;">
+                <div id="slider">
+			        <img src="images/image1.jpg" />
+			        <img src="images/image2.jpg" />
+			        <img src="images/image3.jpg" />
+			        <img src="images/image4.jpg" />
+			        <img src="images/image5.jpg" />
+			        <img src="images/image6.jpg" />
+			        <img src="images/image7.jpg" />
+			        <img src="images/image8.jpg" />
+		        </div>
+            </code><p></p>
 
+            <p>Then to initialize the slider plugin with default settings you insert the script:</p>
+            <code class="brush: js; toolbar: false;">
+                $(function () {
+                    $("#slider").excoloSlider();
+                });
+            </code><p></p>
+
+            <p>...and that's about all there is to it. <br />In the next section you can see how to configure the slider to your needs.</p>
 			
 			<h1>Configuration</h1>
 
-			<p>...work in progress..</p>
+			<p>You have a few options when configuring your slider. <br />
+            One option is to provide the settings as a parameter when initializing the slider:</p>
+            <code class="brush: js; toolbar: false;">
+                $(function () {
+                    $("#slider").excoloSlider({
+                        mouseNav: false,
+                        interval: 5000, // = 5 seconds
+                        playReverse: true
+                    });
+                });
+            </code><p></p>
+			<p>Another option is to provide the settings using the data attribute in the slide container:</p>
+            <code class="brush: js; toolbar: false;">
+                $(function () {
+                    $("#slider").excoloSlider();
+                });
+            </code>
+            <br />
+			<code class="brush: html; toolbar: false;">
+                <div id="slider" data-plugin-options='{ "mouseNav":false, 
+                                                        "interval":"5000", 
+                                                        "playReverse":true}'>
+			        <img src="images/image1.jpg" />
+			        <img src="images/image2.jpg" />
+			        <img src="images/image3.jpg" />
+                    ...
+		        </div>
+            </code><p></p>
 
-			
+            <h2>Options</h2>
+            <table>
+                <tr>
+                    <th style="width: 80px;">Option: </th>
+                    <th style="width: 80px;">Default: </th>
+                    <th>Description: </th>
+                </tr>
+                <tr>
+                    <td>width</td>
+                    <td>800</td>
+                    <td>The width of the slider. If <em>autoSize</em> is set to <em>true</em>, then the width is used to calculate the width/height ratio.</td>
+                </tr>
+                <tr>
+                    <td>height</td>
+                    <td>530</td>
+                    <td>The height of the slider. If <em>autoSize</em> is set to <em>true</em>, then the height is used to calculate the width/height ratio.</td>
+                </tr>
+                <tr>
+                    <td>autoSize</td>
+                    <td>true</td>
+                    <td>When set to true, the slider expands to fill it's container, and resizes if the container changes resize 
+                        - e.g. if the windows is resized or the slider is shown on a smaller screen (e.g. a mobile device). 
+                        Turning this option off, will remove the responsiveness of the slider.</td>
+                </tr>
+                <tr>
+                    <td>keyboardNav</td>
+                    <td>true</td>
+                    <td>Enables you to turn off or on, navigating the slides using the left and right arrow keys.</td>
+                </tr>
+                <tr>
+                    <td>touchNav</td>
+                    <td>true</td>
+                    <td>Enables you to turn off or on, the touch navigation events. 
+                        Some touch devices uses mouse events for touch gestures, so turning <em>touchNav</em> off might not disable touch on all devices. 
+                        See option <em>mouseNav</em>, to solve this.</td>
+                </tr>
+                <tr>
+                    <td>mouseNav</td>
+                    <td>true</td>
+                    <td>Enables you to turn off or on, the mouse navigation, disabling sliding when dragging the slider left or right.
+                        Some touch devices uses mouse events for touch gestures, so turning this off might disable touch on some devices as well.
+                    </td>
+                </tr>
+                <tr>
+                    <td>startSlide</td>
+                    <td>1</td>
+                    <td>Defines which slide to start with when the slider is initialized. 
+                        If <em>playReverse</em> is <em>true</em> and <em>startSlide</em> is <em>1</em>, then the slider starts with the last slide instead of the first.
+                    </td>
+                </tr>
+                <tr>
+                    <td>autoPlay</td>
+                    <td>true</td>
+                    <td>If set to <em>true</em> the slider automatically starts playing the slideshow when initialized, by cycling the slides.</td>
+                </tr>
+                <tr>
+                    <td>delay</td>
+                    <td>0</td>
+                    <td>Defines the delay in milliseconds (1000ms = 1 second) before the sliders starts cycling when the slideshow starts playing.</td>
+                </tr>
+                <tr>
+                    <td>interval</td>
+                    <td>3000</td>
+                    <td>Defines the time in milliseconds (1000ms = 1 second) between each slide action when the slideshow is playing.</td>
+                </tr>
+                <tr>
+                    <td>repeat</td>
+                    <td>true</td>
+                    <td>When set to <em>true</em> the slider continues with the first slide, once the last slide is reached when the slideshow is playing.</td>
+                </tr>
+                <tr>
+                    <td>playReverse</td>
+                    <td>false</td>
+                    <td>When set to <em>true</em> the slider will slide in the opposite direction when the slideshow is playing.</td>
+                </tr>
+                <tr>
+                    <td>hoverPause</td>
+                    <td>true</td>
+                    <td>If to <em>true</em> the slidshow will pause playing, when hovering the mouse over the slider.</td>
+                </tr>
+                <tr>
+                    <td>animationCssTransitions</td>
+                    <td>true</td>
+                    <td>Defines whether to use CSS3 transitions rather than jquery animations when transitioning slides. 
+                        CSS3 transitions are recommended, as they usually perform much smoother. 
+                    </td>
+                </tr>
+                <tr>
+                    <td>animationDuration</td>
+                    <td>500</td>
+                    <td>Defines the time in milliseconds (1000ms = 1 second) that it takes the animation to finish a transition. 
+                        By lowering this the slide will appear to slide faster. This should not be larger than the <em>interval</em> 
+                        and preferably not higher than 2000ms, unless you have a lot of slides. 
+                        Higher values might introduce flickering if <em>interval</em> is number of slides is low.
+                    </td>
+                </tr>
+                <tr>
+                    <td>animationTimingFunction</td>
+                    <td>"linear"</td>
+                    <td>Defines the CSS3 transition animation timing function. 
+                        This change the appearance of the animation, e.g. the slide could be made to move slower towards the end of the animation.
+                    </td>
+                </tr>
+                <tr>
+                    <td>activeSlideClass</td>
+                    <td>"es-active"</td>
+                    <td>Defines the CSS class of the slide currently active. 
+                    </td>
+                </tr>
+            </table>
+
+            <p></p>
+
 			<h1>Examples</h1>
 
 			<h2>Default Slider</h2>
@@ -120,5 +291,12 @@
     </div>
 
   
+    <script type="text/javascript">
+        SyntaxHighlighter.autoloader(
+          'js jscript javascript  http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js',
+          'html http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXml.js'
+        );
+        SyntaxHighlighter.all();
+    </script>
   </body>
 </html>

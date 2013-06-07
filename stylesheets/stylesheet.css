@@ -160,29 +160,9 @@ aside a.button {
 code, pre {
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   color: #222;
-  margin-bottom: 30px;
-  font-size: 13px;
+  font-size: 12px;
 }
 
-code {
-  background-color: #f2f8fc;
-  border: solid 1px #dbe7f3;
-  padding: 0 3px;
-}
-
-pre {
-  padding: 20px;
-  background: #fff;
-  text-shadow: none;
-  overflow: auto;
-  border: solid 1px #f2f2f2;
-}
-pre code {
-  color: #2879d0;
-  background-color: #fff;
-  border: none;
-  padding: 0;
-}
 
 ul, ol, dl {
   margin-bottom: 20px;
@@ -201,20 +181,36 @@ hr {
 }
 
 table {
-  width: 100%;
-  border: 1px solid #ebebeb;
+  border: 1px solid #d0d0d0;
 }
 
 th {
-  font-weight: 500;
+  padding: 5px 2px 5px 2px; 
+  text-align: left;
+  font-weight: bold;
+  border: 1px solid #d0d0d0;
 }
-
+td:first-child {
+  font-family: "Lucida Console", Terminal, monospace;
+}
 td {
-  border: 1px solid #ebebeb;
-  text-align: center; 
+  text-align: left;
+  padding: 2px;
+  border: 1px solid #d0d0d0;
   font-weight: 300;
 }
 
+em {
+  font-family: "Lucida Console", Terminal, monospace;
+  font-weight: 300;
+} 
+
+td.gutter {
+    min-width: 40px;
+} 
+td.code {
+    width: 100%;
+}
 form {
   background: #f2f2f2;
   padding: 20px;
