@@ -9,6 +9,7 @@ Features:
 - AutoPlay Slideshow
 - Keyboard slide navigation
 - Mouse slide navigation
+- Prev/next button navigation
 - Repeat when last slide is reached
 - Play the slideshow backwards
 - Auto adjust size initially and on browser resize, for responsive designs
