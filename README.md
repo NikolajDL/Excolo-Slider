@@ -19,12 +19,12 @@ Most of these features can be configured and turned off, when setting up the sli
 
 Installation
 ============
-...work in progress..
+Installation can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
 
 
 Configuration
 ============
-...work in progress..
+Configuration can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
 
 
 Examples
