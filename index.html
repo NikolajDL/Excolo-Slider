@@ -25,6 +25,7 @@
 
     <script src="javascripts/jquery-1.9.1.min.js"></script>
     <script src="javascripts/jquery.excoloSlider.min.js"></script>
+    <link href="stylesheets/jquery.excoloSlider.css" rel="stylesheet" />
     <script>
         $(function () {
             $("#sliderA").excoloSlider();
@@ -56,6 +57,7 @@
 				<li>AutoPlay Slideshow</li>
 				<li>Keyboard slide navigation</li>
 				<li>Mouse slide navigation</li>
+				<li>Prev/next button navigation</li>
 				<li>Repeat when last slide is reached</li>
 				<li>Play the slideshow backwards</li>
 				<li>Auto adjust size initially and on browser resize, for responsive designs</li>
@@ -171,6 +173,17 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>prevnextNav</td>
+                    <td>true</td>
+                    <td>Enables you to turn off or on the previous/next button navigation. When on, the plugin generates the necessary html within the slider object.</td>
+                </tr>
+                <tr>
+                    <td>prevnextAutoHide</td>
+                    <td>true</td>
+                    <td>Decides whether the previous/next buttons should hide whenever the mouse pointer leaves the slider area. 
+                        It is recommended to turn this off for touch devices (this might be done automatically in a future version).</td>
+                </tr>
+                <tr>
                     <td>startSlide</td>
                     <td>1</td>
                     <td>Defines which slide to start with when the slider is initialized. 
@@ -231,6 +244,27 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>prevButtonClass</td>
+                    <td>"slide-prev"</td>
+                    <td>Defines the CSS class for the previous button, used for styling the navigation button.</td>
+                </tr>
+                <tr>
+                    <td>nextButtonClass</td>
+                    <td>"slide-next"</td>
+                    <td>Defines the CSS class for the next button, used for styling the navigation button.
+                    </td>
+                </tr>
+                <tr>
+                    <td>prevButtonImage</td>
+                    <td>"images/prev.png"</td>
+                    <td>The relative path to the previous button icon.</td>
+                </tr>
+                <tr>
+                    <td>nextButtonImage</td>
+                    <td>"images/next.png"</td>
+                    <td>The relative path to the next button icon.</td>
+                </tr>
+                <tr>
                     <td>activeSlideClass</td>
                     <td>"es-active"</td>
                     <td>Defines the CSS class of the slide currently active. 
@@ -260,7 +294,10 @@
 				<li>Auto Size is on</li>
 				<li>Repeat is on</li>
 				<li>Keyboard navigation is on</li>
+				<li>Prev/next navigation buttons are on</li>
+				<li>Prev/next navigation autohide is on</li>
 				<li>Touch navigation is on</li>
+				<li>Mouse navigation is on</li>
 				<li>Pause on hover is on</li>
 				<li>CSS3 transitions is on</li>
 				<li>Delay is 0ms</li>
