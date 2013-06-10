@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 0.2.3 (07-JUNE-2013)
+ * Version: 0.3.0 (10-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -13,7 +13,7 @@
 ; (function ($, window, document, undefined) {
     var version, pluginName, Plugin;
 
-    version = "0.2.3";
+    version = "0.3.0";
     pluginName = "excoloSlider";
 
 
@@ -46,6 +46,8 @@
             keyboardNav: true,
             touchNav: true,
             mouseNav: true,
+            prevnextNav: true,
+            prevnextAutoHide: true, 
             startSlide: 1,
             autoPlay: true,
             delay: 0,
@@ -55,6 +57,10 @@
             hoverPause: true,
             animationCssTransitions: true,
             animationDuration: 500,
+            prevButtonClass: "slide-prev",
+            nextButtonClass: "slide-next",
+            prevButtonImage: "images/prev.png",
+            nextButtonImage: "images/next.png",
             animationTimingFunction: "linear",
             activeSlideClass: "es-active"
         },
@@ -62,7 +68,7 @@
         /* Initialization function
         **********************************************************/
         init: function () {
-            var base, maxHeight;
+            var base, maxHeight, $prev, $next, $buttons;
             // Defined variable to avoid scope problems
             base = this;
             // Introduce defaults that can be extended either globally or using an object literal. 
@@ -86,6 +92,32 @@
 			base.$elem.css({ position: "relative" });
             base.$elem.wrapInner("<div class='slide-wrapper'>", base.$elem).children();
             base.$elem.wrapInner("<div class='slide-container'>", $(".slide-wrapper", base.$elem)).children();
+            $(".slide-container", base.$elem).css({ position: "relative" });
+
+            // Add prev/next nagivation
+            if (base.config.prevnextNav)
+            {
+                // Add prev/next buttons
+                $(".slide-wrapper", base.$elem).after("<div class='" + base.config.nextButtonClass + "'>");
+                $(".slide-wrapper", base.$elem).after("<div class='" + base.config.prevButtonClass + "'>");
+                $next = $("." + base.config.nextButtonClass, base.$elem);
+                $prev = $("." + base.config.prevButtonClass, base.$elem);
+                $next.append("<img src='" + base.config.nextButtonImage + "'>");
+                $prev.append("<img src='" + base.config.prevButtonImage + "'>");
+                $buttons = $next.add($prev);
+
+                // Toogle on hover
+                if (base.config.prevnextAutoHide) {
+                    $buttons.hide();
+                    base.$elem.hover(
+		                function () { $buttons.fadeIn("fast") },
+		                function () { $buttons.fadeOut("fast") }
+	                );
+                }
+                // Bind click event to buttons
+                $prev.on("click", function (e) { base.previous(); });
+                $next.on("click", function (e) { base.next(); });
+            }
 
             // Add css styles
             $(".slide-wrapper", base.$elem).children().addClass("slide").css({
@@ -111,6 +143,7 @@
                 overflow: "hidden",
                 height: maxHeight
             });
+
 
             // Setup touch event handlers
             if (base.config.touchNav && base.data.touchEnabled) {
@@ -150,8 +183,6 @@
                     return e.stopPropagation();
                 });
             }
-
-            // ###################### TODO: Setup mouse event handlers (reuse touch handlers) ######################
 
             // Setup keyboard event handler
             if (base.config.keyboardNav) {
@@ -289,13 +320,12 @@
             // Setup pause when mouse hover
             if (base.config.hoverPause) {
                 $preContainer.unbind();
-                $preContainer.bind("mouseenter", function () {
+                $preContainer.hover(function () {
                     $.data(base, "playPaused", true);
                     return base.stop();
-                });
-                $preContainer.bind("mouseleave", function () {
+                },function () {
                     $.data(base, "playPaused", false);
-                     return base.start();
+                    return base.start();
                 });
             }
 
