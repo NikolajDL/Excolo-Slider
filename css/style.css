@@ -83,39 +83,3 @@ li {
 	margin: 0 0 0 20px;
 	list-style: disc;
 }
-
-/* slider
-----------------------------------------------------------*/
-.slider {
-    border: 1px solid #ccc;
-    padding: 10px;
-}
-.slide-prev {
-    cursor: pointer;
-    height: 48px;
-    width: 48px;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    margin-top: -24px;
-    background-color: rgba(255,255,255,0.8);
-    padding: 0px;
-}
-.slide-next {
-    cursor: pointer;
-    height: 48px;
-    width: 48px;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    margin-top: -24px;
-    background-color: rgba(255,255,255,0.8);
-    padding: 0px;
-}
-.slide-next img, .slide-prev img {
-    position: relative;
-    top: 0;
-    left: 0;
-    max-height: 100%;
-    max-width: 100%;
-}

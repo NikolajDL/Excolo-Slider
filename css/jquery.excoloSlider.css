@@ -1,0 +1,38 @@
+/* slider
+----------------------------------------------------------*/
+.slider {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.slider .slide-prev {
+    cursor: pointer;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -24px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 0px;
+}
+.slider .slide-next {
+    cursor: pointer;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -24px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 0px;
+}
+.slider .slide-next:hover, .slider .slide-prev:hover {
+    background-color: rgba(255,255,255,0.9);
+}
+.slider .slide-next img, .slider .slide-prev img {
+    position: relative;
+    top: 0;
+    left: 0;
+    max-height: 100%;
+    max-width: 100%;
+}

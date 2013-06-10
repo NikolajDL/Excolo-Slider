@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 0.3.0 (10-JUNE-2013)
+ * Version: 0.3.1 (10-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -13,7 +13,7 @@
 ; (function ($, window, document, undefined) {
     var version, pluginName, Plugin;
 
-    version = "0.3.0";
+    version = "0.3.1";
     pluginName = "excoloSlider";
 
 
@@ -57,11 +57,11 @@
             hoverPause: true,
             animationCssTransitions: true,
             animationDuration: 500,
+            animationTimingFunction: "linear",
             prevButtonClass: "slide-prev",
             nextButtonClass: "slide-next",
             prevButtonImage: "images/prev.png",
             nextButtonImage: "images/next.png",
-            animationTimingFunction: "linear",
             activeSlideClass: "es-active"
         },
 
@@ -89,6 +89,7 @@
             if (typeof TouchEvent !== "undefined") $.data(this, "touchEnabled", true);
 
             // Create helper html objects
+            base.$elem.addClass("slider");
 			base.$elem.css({ position: "relative" });
             base.$elem.wrapInner("<div class='slide-wrapper'>", base.$elem).children();
             base.$elem.wrapInner("<div class='slide-container'>", $(".slide-wrapper", base.$elem)).children();
