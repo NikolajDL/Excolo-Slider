@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 0.3.3 (13-JUNE-2013)
+ * Version: 0.3.4 (13-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -13,7 +13,7 @@
 ; (function ($, window, document, undefined) {
     var version, pluginName, Plugin;
 
-    version = "0.3.3";
+    version = "0.3.4";
     pluginName = "excoloSlider";
 
 
@@ -171,6 +171,8 @@
                 base.$elem.on("dragstart", function (e) { return false; });
                 base.$elem.on("mousedown", function (e) {
                     base._onMoveStart(e.clientX, e.clientY);
+
+                    $(window).attr('unselectable', 'on').on('selectstart', false).css('user-select', 'none').css('UserSelect', 'none').css('MozUserSelect', 'none');
                     return e.stopPropagation();
                 });
                 // The mousemove event should also work outside the slide-wrapper container
@@ -181,6 +183,8 @@
                 // The mouseup event should also work outside the slide-wrapper container
                 $(window).on("mouseup", function (e) {
                     base._onMoveEnd();
+
+                    $(window).removeAttr('unselectable').unbind('selectstart').css('user-select', null).css('UserSelect', null).css('MozUserSelect', null);
                     return e.stopPropagation();
                 });
             }
