@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 0.3.1 (10-JUNE-2013)
+ * Version: 0.3.3 (13-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -13,7 +13,7 @@
 ; (function ($, window, document, undefined) {
     var version, pluginName, Plugin;
 
-    version = "0.3.1";
+    version = "0.3.3";
     pluginName = "excoloSlider";
 
 
@@ -86,7 +86,6 @@
             $.data(base, "justTouched", false);
             $.data(base, "isMoving", false);
             $.data(base, "width", base.config.width);
-            if (typeof TouchEvent !== "undefined") $.data(this, "touchEnabled", true);
 
             // Create helper html objects
             base.$elem.addClass("slider");
@@ -147,34 +146,35 @@
 
 
             // Setup touch event handlers
-            if (base.config.touchNav && base.data.touchEnabled) {
-                $(".slide-wrapper", base.$elem).on("touchstart", function (e) {
+            if (base.config.touchNav) {
+                base.$elem.on("touchstart", function (e) {
                     var eventData = e.originalEvent.touches[0];
+                    e.preventDefault();
                     base._onMoveStart(eventData.pageX, eventData.pageY);
                     return e.stopPropagation();
                 });
-                $(".slide-wrapper", base.$elem).on("touchmove", function (e) {
+                base.$elem.on("touchmove", function (e) {
                     var eventData = e.originalEvent.touches[0];
                     e.preventDefault();
                     base._onMove(eventData.pageX, eventData.pageY);
                     return e.stopPropagation();
                 });
-                $(".slide-wrapper", base.$elem).on("touchend", function (e) {
+                base.$elem.on("touchend", function (e) {
+                    e.preventDefault();
                     base._onMoveEnd();
                     return e.stopPropagation();
                 });
             }
             // Setup mouse event handlers
             if (base.config.mouseNav) {
-                $(".slide-wrapper", base.$elem).css("cursor", "pointer");
-                $(".slide-wrapper", base.$elem).on("dragstart", function (e) { return false; });
-                $(".slide-wrapper", base.$elem).on("mousedown", function (e) {
+                base.$elem.css("cursor", "pointer");
+                base.$elem.on("dragstart", function (e) { return false; });
+                base.$elem.on("mousedown", function (e) {
                     base._onMoveStart(e.clientX, e.clientY);
                     return e.stopPropagation();
                 });
                 // The mousemove event should also work outside the slide-wrapper container
                 $(window).on("mousemove", function (e) {
-                    e.preventDefault();
                     base._onMove(e.clientX, e.clientY);
                     return e.stopPropagation();
                 });
@@ -468,7 +468,7 @@
             var base = this;
 
             // Setup touchrelated data
-            $.data(base, "touchTime", Number(new Date()));
+            if (!base.data.isMoving) $.data(base, "touchTime", Number(new Date()));
             $.data(base, "touchedX", x);
             $.data(base, "touchedY", y);
 
@@ -575,8 +575,9 @@
             // Align the slides to prepare for the next slide
             base._alignSlides(leftPos);
 
-            // We're no longer moving
+            // We're no longer moving and touching
             $.data(base, "isMoving", false);
+            $.data(base, "justTouched", false);
 
             // Restart playing playing 
             if(base.data.playPaused)
@@ -701,10 +702,6 @@
                 // Set nextslide on end of transition
                 $container.on("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd", function () {
                     $.data(base, "currentSlide", nextSlideIndex);
-                    $.data(base, "isAnimating", false);
-                    $.data(base, "justTouched", false);
-
-                    // Align the slides in a line to prepare for the transition animation
                     $container.unbind("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd");
                 });
             } else {
@@ -729,8 +726,9 @@
             $container = $(".slide-wrapper", base.$elem);
 
             // Limit duration modifier
-            if (durationModifier === undefined || durationModifier < 0)
+            if (durationModifier === undefined || durationModifier < 0) {
                 durationModifier = 1;
+            }
 
             // NOTE:    We add both prefixed transition and the default
             //          for browser compatibility.
@@ -740,12 +738,17 @@
             transform = prefix + "Transform";
             duration = prefix + "TransitionDuration";
             timing = prefix + "TransitionTimingFunction";
-            /* ^ Hopefully this will be minimized better than having a lot of other stuff  */
 
             // Set style to activate the slide transition
-            $container[0].style[transform] = "translateX(" + leftPos + "px)";
             $container[0].style[duration] = (base.config.animationDuration * durationModifier) + "ms";
             $container[0].style[timing] = base.config.animationTimingFunction;
+            $container[0].style[transform] = "translateX(" + leftPos + "px)";
+
+            $container.on("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd", function () {
+                $.data(base, "isAnimating", false);
+                $.data(base, "justTouched", false);
+                $container.unbind("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd");
+            });
         },
 
         /* Auto-size the slider
