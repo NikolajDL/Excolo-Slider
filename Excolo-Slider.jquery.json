@@ -1,14 +1,15 @@
 {
     "name": "Excolo-Slider",
     "title": "jQuery Excolo Slider",
-    "description": "YAJQS - Yet another jQuery slider/carousel. I was fed up with the good slider plugins being commercial, so I decided to make a decent open-source variant.",
+    "description": "YAJQS - Yet another jQuery slider/carousel. I was fed up with the good slider plugins being commercial, so I decided to make a decent open-source variant. Installable as a NuGet package from the NuGet.org package feed.",
     "keywords": [
         "slider",
         "carousel",
 		"slideshow",
 		"responsive",
 		"touch",
-		"CSS3"
+		"CSS3",
+		"NuGet"
     ],
     "version": "0.3.5",
     "author": {
