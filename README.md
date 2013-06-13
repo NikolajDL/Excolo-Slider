@@ -20,7 +20,20 @@ Most of these features can be configured and turned off, when setting up the sli
 
 Installation
 ============
-Installation can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
+Installation can be done using NuGet Package Manager, 
+either by using the console, as seen below, or by searching for the package in the Visual Studio package explorer:
+```
+PM> Install-Package excolo-slider
+```
+Then in the header of your website, you insert the references to jquery and the slider plugin:
+```html
+<script src="Scripts/jquery-1.9.1.min.js"></script>
+<script src="Scripts/jquery.excoloSlider.min.js"></script>
+<link href="Content/jquery.excoloSlider.css" rel="stylesheet">
+```
+
+For installation without NuGet you simply download the slider from GitHub and insert the references as above.
+More can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
 
 
 Configuration
