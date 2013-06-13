@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 0.3.5 (13-JUNE-2013)
+ * Version: 0.4.0 (13-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -13,7 +13,7 @@
 ; (function ($, window, document, undefined) {
     var version, pluginName, Plugin;
 
-    version = "0.3.5";
+    version = "0.4.0";
     pluginName = "excoloSlider";
 
 
@@ -55,6 +55,7 @@
             repeat: true,
             playReverse: false,
             hoverPause: true,
+            captionAutoHide: false,
             animationCssTransitions: true,
             animationDuration: 500,
             animationTimingFunction: "linear",
@@ -62,13 +63,14 @@
             nextButtonClass: "slide-next",
             prevButtonImage: "images/prev.png",
             nextButtonImage: "images/next.png",
-            activeSlideClass: "es-active"
+            activeSlideClass: "es-active",
+            slideCaptionClass: "es-caption"
         },
 
         /* Initialization function
         **********************************************************/
         init: function () {
-            var base, maxHeight, $prev, $next, $buttons;
+            var base, maxHeight, $prev, $next, $buttons, $innerBase, caption, $children;
             // Defined variable to avoid scope problems
             base = this;
             // Introduce defaults that can be extended either globally or using an object literal. 
@@ -119,6 +121,35 @@
                 $next.on("click", function (e) { base.next(); });
             }
 
+            // Add data-attribute captions
+            $children = $(".slide-wrapper", base.$elem).children();
+            $children.each(function () {
+                $innerBase = $(this);
+                caption = $innerBase.data('plugin-slide-caption');
+                if (caption === undefined)
+                    return;
+
+                if (this.tagName == "IMG")
+                {
+                    // If the slide is an image, wrap this image in a div and append the caption div.
+                    $innerBase.wrap("<div>");
+                    $innerBase.after("<div class='" + base.config.slideCaptionClass + "'>");
+                    $innerBase.next().append(caption);
+                } else {
+                    // For any other type of slide element, just append the caption div at the end. 
+                    $innerBase.append("<div class='" + base.config.slideCaptionClass + "'>");
+                    $innerBase.children().last().append(caption);
+                }
+                // Toogle on hover
+                if (base.config.captionAutoHide) {
+                    $("." + base.config.slideCaptionClass, base.$elem).hide();
+                    base.$elem.hover(
+		                function () { $("." + base.config.slideCaptionClass, base.$elem).fadeIn("fast") },
+		                function () { $("." + base.config.slideCaptionClass, base.$elem).fadeOut("fast") }
+	                );
+                }
+            });
+
             // Add css styles
             $(".slide-wrapper", base.$elem).children().addClass("slide").css({
                 position: "absolute",
@@ -132,7 +163,7 @@
             });
 
             // Set the height of the wrapper to fit the max height of the slides
-            maxHeight = $(".slide-wrapper", base.$elem).children().height();
+            maxHeight = $children.height();
             $(".slide-wrapper", base.$elem).css({
                 position: "relative",
                 left: 0,
