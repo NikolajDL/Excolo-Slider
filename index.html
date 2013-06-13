@@ -50,11 +50,12 @@
 
 			<p>A simple jquery sliding plugin, supporting responsive design and touch. </p>
 
-            <div id="topslider">
-				<img src="images/image1.jpg" />
+            <div id="topslider" class="slider">
+				<img src="images/image1.jpg" data-plugin-slide-caption="This is a <b>caption</b> in slide 1. <a href='http://fursik.deviantart.com/' target='_blank' title='Link to the photographer of the photos used in examples'>Photo by Fursik</a>" />
 				<img src="images/image2.jpg" />
 				<img src="images/image3.jpg" />
-				<img src="images/image4.jpg" />
+				<div style="background-color: #ff7500" data-plugin-slide-caption="This is the caption of a <b>DIV</b> slide.">
+                    <b>A DIV slide</b><img style="width:60%;border:1px solid #fff;background-color: #fff;float:right;margin: 10px;padding: 10px;" src="images/image4.jpg" /></div>
 				<img src="images/image5.jpg" />
 				<img src="images/image6.jpg" />
 				<img src="images/image7.jpg" />
@@ -70,11 +71,15 @@
 				<li>Keyboard slide navigation</li>
 				<li>Mouse slide navigation</li>
 				<li>Prev/next button navigation</li>
+				<li>HTML5 data-attribute captions</li>
 				<li>Repeat when last slide is reached</li>
 				<li>Play the slideshow backwards</li>
 				<li>Auto adjust size initially and on browser resize, for responsive designs</li>
 				<li>Touch enabled (limited to a few browsers)</li>
-			</ul><p>Most of these features can be configured and turned off, when setting up the slider. </p>
+				<li>Can be molded into beauty using CSS</li>
+			</ul>
+            
+            <p>Most of these features can be configured and turned off, when setting up the slider. </p>
 
 			
 			<h1>Installation</h1>
@@ -94,13 +99,15 @@
 			        <img src="images/image1.jpg" />
 			        <img src="images/image2.jpg" />
 			        <img src="images/image3.jpg" />
-			        <img src="images/image4.jpg" />
+			        <img src="images/image4.jpg" data-plugin-slide-caption="I am a caption <b>and I can contain HTML.</b>" />
 			        <img src="images/image5.jpg" />
 			        <img src="images/image6.jpg" />
 			        <img src="images/image7.jpg" />
 			        <img src="images/image8.jpg" />
 		        </div>
             </code><p></p>
+            <p>Notice how you can use the HTML5 data-attribute <em>data-plugin-slide-caption</em> to create a caption text for each slide. 
+                These captions allow HTML and can be fully styled using css</p>
 
             <p>Then to initialize the slider plugin with default settings you insert the script:</p>
             <code class="brush: js; toolbar: false;">
@@ -234,6 +241,12 @@
                     <td>If to <em>true</em> the slidshow will pause playing, when hovering the mouse over the slider.</td>
                 </tr>
                 <tr>
+                    <td>captionAutoHide</td>
+                    <td>false</td>
+                    <td>Decides whether the HTML5 caption text should hide whenever the mouse pointer leaves the slider area. 
+                        The effect is similar to the prev/next navigation autohide and they will show/hide simultaniously on hover.</td>
+                </tr>
+                <tr>
                     <td>animationCssTransitions</td>
                     <td>true</td>
                     <td>Defines whether to use CSS3 transitions rather than jquery animations when transitioning slides. 
@@ -283,6 +296,12 @@
                     <td>Defines the CSS class of the slide currently active. 
                     </td>
                 </tr>
+                <tr>
+                    <td>slideCaptionClass</td>
+                    <td>"es-caption"</td>
+                    <td>Defines the CSS class of the caption div element used for caption text within a slide.
+                    </td>
+                </tr>
             </table>
 
             <p></p>
@@ -317,8 +336,8 @@
 				<li>Slide interval is 3000ms (3s)</li>
 			</ul>
 			<hr />
-			<p>The beautiful photos used in these examples were used with permission from the photographer <a href="http://fursik.deviantart.com/" target="Link to the photographer of the photos used in examples">Piotr Furs</a>.<br />
-			These photos, and more, are available at his <a href="http://fursik.deviantart.com/" target="Link to the photographer of the photos used in examples">deviantArt profile, Fursik</a>.</p>
+			<p>The beautiful photos used in these examples were used with permission from the photographer <a href="http://fursik.deviantart.com/" target="_blank" title="Link to the photographer of the photos used in examples">Piotr Furs</a>.<br />
+			These photos, and more, are available at his <a href="http://fursik.deviantart.com/" target="_blank" title="Link to the photographer of the photos used in examples">deviantArt profile, Fursik</a>.</p>
 				
 				
         </section>
