@@ -2,7 +2,10 @@ Excolo Slider
 ============
 A simple jquery sliding plugin, supporting responsive design, keyboard and touch navigation. 
 
-Under development - see issues. 
+Under development. 
+I'll post future features and enhancements, in the issue tracker.
+
+Should you find bugs or want to suggest a feature, feel free to post it in an issue. :-) 
 
 
 Features:
