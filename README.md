@@ -31,6 +31,32 @@ Then in the header of your website, you insert the references to jquery and the 
 <script src="Scripts/jquery.excoloSlider.min.js"></script>
 <link href="Content/jquery.excoloSlider.css" rel="stylesheet">
 ```
+The HTML code for the slides is simply a div container, with any child objects being the slides:
+```html
+<div id="slider">
+  <img src="images/image1.jpg" />
+  <img src="images/image2.jpg" />
+  <img src="images/image3.jpg" />
+  <img src="images/image4.jpg" 
+    data-plugin-slide-caption="I am a caption <b>and I can contain HTML.</b>" />
+  <img src="images/image5.jpg" />
+  <img src="images/image6.jpg" />
+  <img src="images/image7.jpg" />
+  <div>
+    <h2>This is the last slide</h2>
+    <img style="width: 50%: float: right;" src="images/image8.jpg" />
+  </div>
+</div>
+```
+Notice how you can use the HTML5 data-attribute data-plugin-slide-caption to create a caption text for each slide. 
+These captions allow HTML and can be fully styled using css.
+
+Then to initialize the slider plugin with default settings you insert the script:
+```html
+$(function () {
+    $("#slider").excoloSlider();
+});
+```
 
 For installation without NuGet you simply download the slider from GitHub and insert the references as above.
 More can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
