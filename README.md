@@ -79,6 +79,11 @@ Examples can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/
 Change Log
 ============
 
+2013-06-15 - **v1.0.0**
+
+* Added the last feature from the issue list - pagination ([excolo](https://github.com/excolo))
+* Cleaned up the code a bit ([excolo](https://github.com/excolo))
+
 2013-06-13 - **v0.4.0**
 
 * Added HTML5 data-attribute captions ([excolo](https://github.com/excolo))
