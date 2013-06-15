@@ -75,6 +75,39 @@ Examples
 Examples can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
 
 
+Change Log
+============
+
+2013-06-13 - **v0.4.0**
+
+* Added HTML5 data-attribute captions ([excolo](https://github.com/excolo))
+
+2013-06-13 - **v0.3.5**
+
+* Updated jQuery.org plugin gallery manifest ([excolo](https://github.com/excolo))
+
+2013-06-13 - **v0.3.4**
+
+* Removed text-selection when using mouse navigation ([excolo](https://github.com/excolo))
+* Created a NuGet package for easy installation on ASP.NET projects ([excolo](https://github.com/excolo))
+
+2013-06-13 - **v0.3.3**
+
+* Increased browser support ([excolo](https://github.com/excolo))
+
+2013-06-10 - **v0.3.1**
+
+* Added previous/next button navigation ([excolo](https://github.com/excolo))
+* Added a stylesheet for default styling of slider ([excolo](https://github.com/excolo))
+
+2013-06-07 - **v0.2.3**
+
+* Added mouse navigation ([excolo](https://github.com/excolo))
+
+2013-05-20 - **v0.1.4**
+
+* Initial version ([excolo](https://github.com/excolo))
+
 License
 ============
 Free for both personal and commercial use.
