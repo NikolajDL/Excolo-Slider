@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 1.0.0 (15-JUNE-2013)
+ * Version: 1.0.1 (15-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -13,7 +13,7 @@
 ; (function ($, window, document, undefined) {
     var version, pluginName, Plugin;
 
-    version = "1.0.0";
+    version = "1.0.1";
     pluginName = "excoloSlider";
 
 
@@ -593,6 +593,10 @@
             var base, $container, $slide, leftPos, half, tenth, svipe;
             // Define variable to avoid scope problems
             base = this;
+
+            // Only move if, we're actually "moving"
+            if (!base.data.isMoving)
+                return;
 
             // Jquery objects
             $container = $(".slide-wrapper", base.$elem);
