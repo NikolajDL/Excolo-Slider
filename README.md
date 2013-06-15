@@ -13,6 +13,7 @@ Features:
 - Keyboard slide navigation
 - Mouse slide navigation
 - Prev/next button navigation
+- HTML5 data-attribute captions
 - Pagination
 - Repeat when last slide is reached
 - Play the slideshow backwards
