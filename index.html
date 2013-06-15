@@ -28,8 +28,18 @@
     <link href="stylesheets/jquery.excoloSlider.css" rel="stylesheet" />
     <script>
         $(function () {
-            $("#topslider").excoloSlider();
-            $("#sliderA").excoloSlider();
+            $("#topslider").excoloSlider({
+
+                prevButtonImage: "images/prev.png",
+                nextButtonImage: "images/next.png",
+                pagerImage: "images/pagericon.png"
+            });
+            $("#sliderA").excoloSlider({
+
+                prevButtonImage: "images/prev.png",
+                nextButtonImage: "images/next.png",
+                pagerImage: "images/pagericon.png"
+            }s);
         });
     </script>
   </head>
