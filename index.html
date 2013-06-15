@@ -62,7 +62,9 @@
 				<img src="images/image8.jpg" />
 			</div>
 
-			<p>Under development.</p>
+            <p>Under development. I'll post future features and enhancements, in the issue tracker.</p>
+
+            <p>Should you find bugs or want to suggest a feature, feel free to post it in an issue on the <a href="https://github.com/Excolo/Excolo-Slider">GitHub project page</a>. :-)</p>
 
 			<h2>Features:</h2>
 
@@ -72,6 +74,7 @@
 				<li>Mouse slide navigation</li>
 				<li>Prev/next button navigation</li>
 				<li>HTML5 data-attribute captions</li>
+				<li>Pagination</li>
 				<li>Repeat when last slide is reached</li>
 				<li>Play the slideshow backwards</li>
 				<li>Auto adjust size initially and on browser resize, for responsive designs</li>
@@ -90,12 +93,33 @@
                 PM> Install-Package Excolo-Slider
             </code><p></p>
 
+            <p>If you didn't use NuGet you'll have to insert the plugin files in the folders of your choice on your server. 
+                The files you'll need to insert is:</p>
+            <code class="brush: plain; toolbar: false;">
+                query-1.9.1.min.js
+                jquery.excoloSlider.min.js
+                jquery.excoloSlider.css
+            </code>
+            <p>These can be inserted in whatever folder you wish.</p>
+            <p>If you use the previous/next navigation or pagination, you should also insert the image files:</p>
+            <code class="brush: plain; toolbar: false;">
+                prev.png
+                next.png
+                pagericon.png
+            </code>
+            <p>The plugin looks for these images in the folder called <em>Images</em> relative to the page where the plugin is used. 
+                The name and location of these image files can be changed using the plugin options presented further down this page, under Configuration.</p>
+
             <p>In the header of your website, you insert the references to jquery and the slider plugin:</p> 
             <code class="brush: html; toolbar: false;">
                 <script src="javascripts/jquery-1.9.1.min.js"></script>
                 <script src="javascripts/jquery.excoloSlider.min.js"></script>
                 <link href="stylesheets/jquery.excoloSlider.css" rel="stylesheet" />
-            </code><p></p>
+            </code>
+            <p>Here I've placed the files in the javascripts and stylesheets folder, but you can just reference using the folder you chose to insert the files into.
+                If you used NuGet, the javascript files are placed in the folder <em>Scripts</em>, the stylesheet is placed in the folder <em>Content</em> 
+                and the images is placed in the folder <em>Images</em>.
+            </p>
             
             <p>The HTML code for the slides is simply a div container, with any child objects being the slides:</p>
             <code class="brush: html; toolbar: false;">
@@ -208,6 +232,12 @@
                         It is recommended to turn this off for touch devices (this might be done automatically in a future version).</td>
                 </tr>
                 <tr>
+                    <td>pagerNav</td>
+                    <td>true</td>
+                    <td>Enables you to turn off or on, the slide pagination. When turned on, 
+                        the plugin generates a list where each element corresponds to a slide and by clicking an element, the associated slide is shown.</td>
+                </tr>
+                <tr>
                     <td>startSlide</td>
                     <td>1</td>
                     <td>Defines which slide to start with when the slider is initialized. 
@@ -306,8 +336,22 @@
                     <td>Defines the CSS class of the caption div element used for caption text within a slide.
                     </td>
                 </tr>
+                <tr>
+                    <td>pagerClass</td>
+                    <td>"es-pager"</td>
+                    <td>Defines the CSS class of the pagination ul element used for containing the page/slide links.
+                    </td>
+                </tr>
+                <tr>
+                    <td>pagerImage</td>
+                    <td>"Images/pagericon.png"</td>
+                    <td>The relative path to the image used for the pager bullets. 
+                        The default image is of size 16x32px and contains both the standard bullet and the hover/active bullet. 
+                        The hover and active bullet effect is done by changing background location.
+                    </td>
+                </tr>
             </table>
-
+            
             <p></p>
 
 			<h1>Examples</h1>
@@ -332,6 +376,7 @@
 				<li>Keyboard navigation is on</li>
 				<li>Prev/next navigation buttons are on</li>
 				<li>Prev/next navigation autohide is on</li>
+				<li>Pagination is on</li>
 				<li>Touch navigation is on</li>
 				<li>Mouse navigation is on</li>
 				<li>Pause on hover is on</li>

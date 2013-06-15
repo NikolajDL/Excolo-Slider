@@ -58,3 +58,28 @@
     -khtml-border-radius: 6px;
     border: 1px solid rgba(255,255,255,0.3);
 }
+ul.es-pager {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 5px 0 0 0;
+    padding: 0;
+    line-height: 0px;
+}
+ul.es-pager li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    height: 16px;
+    width: 16px;
+    /*background-image: url("../Images/pagericon.png");*/
+    background-repeat: no-repeat;
+    background-position: 0 -16px;
+    cursor: pointer;
+}
+ul.es-pager li:hover, ul.es-pager li.act {
+    background-position: 0 0;
+}
+ul.es-pager li.act {
+    cursor: default;
+}
