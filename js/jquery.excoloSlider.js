@@ -5,17 +5,13 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 1.0.1 (15-JUNE-2013)
+ * Version: 1.0.2 (15-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
  */
 ; (function ($, window, document, undefined) {
-    var version, pluginName, Plugin;
-
-    version = "1.0.1";
-    pluginName = "excoloSlider";
-
+    var Plugin;
 
     /* Plugin Definition
     **************************************************************/
@@ -140,8 +136,9 @@
                         .attr("rel", $(this).index())
                         .css({ "background-image": "url('" + base.config.pagerImage + "')" })
                         .on("click", function () {
-                            $.data(base, "nextSlide", $(this).attr("rel"));
-                            base._slide();
+                            $.data(base, "nextSlide", parseInt($(this).attr("rel")));
+                            base._prepareslides(true);
+                            base._slide(true);
                             base._manualInterference();
                         });
                 });
@@ -467,7 +464,7 @@
 
         /* Position and align the slides to prepare for sliding
         **********************************************************/
-        _prepareslides: function () {
+        _prepareslides: function (onlyAhead) {
             var base, $container, $slides, width, half, i;
 
             // Define variable to avoid scope problems
@@ -492,7 +489,7 @@
                 i++;
 
                 // Move the other half back in line
-                if (base.config.repeat && i > half) 
+                if (!onlyAhead && base.config.repeat && i > half)
                     i = base.data.totalslides % 2 ? -half : -(half - 1);
             });
         },
@@ -718,26 +715,22 @@
 
         /* Perform a slide
         **********************************************************/
-        _slide: function () {
-            var base, nextSlideIndex, currentSlideIndex, $container, $slides, $slide, $currentSlide, width, currentPos, leftPos;
+        _slide: function (postalign) {
+            var base, nextSlideIndex, $container, $slides, $slide, width, leftPos;
             // Define variable to avoid scope problems
             base = this;
 
             // Data
             nextSlideIndex = base.data.nextSlide;
-            currentSlideIndex = base.data.currentSlide;
 
             // Jquery objects
             $container = $(".slide-wrapper", base.$elem);
             $slides = $container.children();
             $slide = $container.children(":eq(" + nextSlideIndex + ")");
-            $currentSlide = $container.children(":eq(" + currentSlideIndex + ")");
 
             // Style variables
             width = base.data.width;
 
-            // Get position of current slide
-            currentPos = Math.round($currentSlide.position().left);
             // Get the position of the slide we are heading for
             leftPos = Math.round($slide.position().left);
 
@@ -747,8 +740,8 @@
 
             // ---
 
-            // Align the slides in a line to prepare for the transition animation
-            base._alignSlides(leftPos);
+            // Pre-Align the slides in a line to prepare for the transition animation
+            if (!postalign) base._alignSlides(leftPos);
 
             // Animate - css transitions are much better.
             $.data(base, "isAnimating", true);
@@ -760,6 +753,7 @@
                 $container.on("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd", function () {
                     $.data(base, "currentSlide", nextSlideIndex);
                     $container.unbind("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd");
+                    if (postalign) base._alignSlides(leftPos);
                 });
             } else {
                 // We must resolve to sucky animations
