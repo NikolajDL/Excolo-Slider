@@ -13,6 +13,7 @@ Features:
 - Keyboard slide navigation
 - Mouse slide navigation
 - Prev/next button navigation
+- Pagination
 - Repeat when last slide is reached
 - Play the slideshow backwards
 - Auto adjust size initially and on browser resize, for responsive designs
@@ -61,8 +62,7 @@ $(function () {
 });
 ```
 
-For installation without NuGet you simply download the slider from GitHub and insert the references as above.
-More can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
+For installation without NuGet see [our GitHub page](http://excolo.github.io/Excolo-Slider/)
 
 
 Configuration

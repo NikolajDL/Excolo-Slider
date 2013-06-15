@@ -9,9 +9,10 @@
 		"responsive",
 		"touch",
 		"CSS3",
-		"NuGet"
+		"NuGet",
+		"HTML5"
     ],
-    "version": "0.4.0",
+    "version": "1.0.0",
     "author": {
         "name": "Nikolaj Dam Larsen",
 		"email": "nikolaj@excolo.dk",

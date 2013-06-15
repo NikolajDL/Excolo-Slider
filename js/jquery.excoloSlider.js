@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 0.4.0 (13-JUNE-2013)
+ * Version: 1.0.0 (15-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -13,7 +13,7 @@
 ; (function ($, window, document, undefined) {
     var version, pluginName, Plugin;
 
-    version = "0.4.0";
+    version = "1.0.0";
     pluginName = "excoloSlider";
 
 
@@ -47,7 +47,8 @@
             touchNav: true,
             mouseNav: true,
             prevnextNav: true,
-            prevnextAutoHide: true, 
+            prevnextAutoHide: true,
+            pagerNav: true,
             startSlide: 1,
             autoPlay: true,
             delay: 0,
@@ -61,16 +62,18 @@
             animationTimingFunction: "linear",
             prevButtonClass: "slide-prev",
             nextButtonClass: "slide-next",
-            prevButtonImage: "images/prev.png",
-            nextButtonImage: "images/next.png",
+            prevButtonImage: "Images/prev.png",
+            nextButtonImage: "Images/next.png",
             activeSlideClass: "es-active",
-            slideCaptionClass: "es-caption"
+            slideCaptionClass: "es-caption",
+            pagerClass: "es-pager",
+            pagerImage: "Images/pagericon.png"
         },
 
         /* Initialization function
         **********************************************************/
         init: function () {
-            var base, maxHeight, $prev, $next, $buttons, $innerBase, caption, $children;
+            var base, maxHeight, $prev, $next, $buttons, $innerBase, caption, $wrapper, $children, $container;
             // Defined variable to avoid scope problems
             base = this;
             // Introduce defaults that can be extended either globally or using an object literal. 
@@ -94,14 +97,20 @@
 			base.$elem.css({ position: "relative" });
             base.$elem.wrapInner("<div class='slide-wrapper'>", base.$elem).children();
             base.$elem.wrapInner("<div class='slide-container'>", $(".slide-wrapper", base.$elem)).children();
+            base.$elem.wrapInner("<div class='slide-dragcontainer'>", $(".slide-container", base.$elem)).children();
             $(".slide-container", base.$elem).css({ position: "relative" });
+
+            // Setup common jq objects
+            $container = $(".slide-dragcontainer", base.$elem);
+            $wrapper = $(".slide-wrapper", base.$elem);
+            $children = $wrapper.children();    // "Saaave the children, aaaah aah ah aaaaaah"
 
             // Add prev/next nagivation
             if (base.config.prevnextNav)
             {
                 // Add prev/next buttons
-                $(".slide-wrapper", base.$elem).after("<div class='" + base.config.nextButtonClass + "'>");
-                $(".slide-wrapper", base.$elem).after("<div class='" + base.config.prevButtonClass + "'>");
+                $wrapper.after("<div class='" + base.config.nextButtonClass + "'>");
+                $wrapper.after("<div class='" + base.config.prevButtonClass + "'>");
                 $next = $("." + base.config.nextButtonClass, base.$elem);
                 $prev = $("." + base.config.prevButtonClass, base.$elem);
                 $next.append("<img src='" + base.config.nextButtonImage + "'>");
@@ -121,8 +130,24 @@
                 $next.on("click", function (e) { base.next(); });
             }
 
+            // Add pager navigation
+            if (base.config.pagerNav)
+            {
+                base.$elem.append("<ul class='" + base.config.pagerClass + "'>");
+                // Loop through each slide
+                $children.each(function () {
+                    $("<li />").appendTo($("." + base.config.pagerClass, base.$elem))
+                        .attr("rel", $(this).index())
+                        .css({ "background-image": "url('" + base.config.pagerImage + "')" })
+                        .on("click", function () {
+                            $.data(base, "nextSlide", $(this).attr("rel"));
+                            base._slide();
+                            base._manualInterference();
+                        });
+                });
+            }
+
             // Add data-attribute captions
-            $children = $(".slide-wrapper", base.$elem).children();
             $children.each(function () {
                 $innerBase = $(this);
                 caption = $innerBase.data('plugin-slide-caption');
@@ -151,7 +176,7 @@
             });
 
             // Add css styles
-            $(".slide-wrapper", base.$elem).children().addClass("slide").css({
+            $wrapper.children().addClass("slide").css({
                 position: "absolute",
                 top: 0,
                 left: 0,
@@ -164,7 +189,7 @@
 
             // Set the height of the wrapper to fit the max height of the slides
             maxHeight = $children.height();
-            $(".slide-wrapper", base.$elem).css({
+            $wrapper.css({
                 position: "relative",
                 left: 0,
                 height: maxHeight
@@ -178,19 +203,19 @@
 
             // Setup touch event handlers
             if (base.config.touchNav) {
-                base.$elem.on("touchstart", function (e) {
+                $container.on("touchstart", function (e) {
                     var eventData = e.originalEvent.touches[0];
                     e.preventDefault();
                     base._onMoveStart(eventData.pageX, eventData.pageY);
                     return e.stopPropagation();
                 });
-                base.$elem.on("touchmove", function (e) {
+                $container.on("touchmove", function (e) {
                     var eventData = e.originalEvent.touches[0];
                     e.preventDefault();
                     base._onMove(eventData.pageX, eventData.pageY);
                     return e.stopPropagation();
                 });
-                base.$elem.on("touchend", function (e) {
+                $container.on("touchend", function (e) {
                     e.preventDefault();
                     base._onMoveEnd();
                     return e.stopPropagation();
@@ -198,9 +223,9 @@
             }
             // Setup mouse event handlers
             if (base.config.mouseNav) {
-                base.$elem.css("cursor", "pointer");
-                base.$elem.on("dragstart", function (e) { return false; });
-                base.$elem.on("mousedown", function (e) {
+                $container.css("cursor", "pointer");
+                $container.on("dragstart", function (e) { return false; });
+                $container.on("mousedown", function (e) {
                     base._onMoveStart(e.clientX, e.clientY);
 
                     $(window).attr('unselectable', 'on').on('selectstart', false).css('user-select', 'none').css('UserSelect', 'none').css('MozUserSelect', 'none');
@@ -413,10 +438,7 @@
             // Get position of goal slide
             leftPos = $slide.position().left;
 
-            // Clear old active class
-            $slides.removeClass(base.config.activeSlideClass);
-            // Set new active class
-            $slide.addClass(base.config.activeSlideClass);
+            base._setActive($slides, $slide);
 
             // Gogogo
             if (base.config.animationCssTransitions && base.data.browserEnginePrefix) {
@@ -693,7 +715,7 @@
         /* Perform a slide
         **********************************************************/
         _slide: function () {
-            var base, nextSlideIndex, currentSlideIndex, $container, $slides, $slide, $currentSlide, activeSlideClass, width, currentPos, leftPos;
+            var base, nextSlideIndex, currentSlideIndex, $container, $slides, $slide, $currentSlide, width, currentPos, leftPos;
             // Define variable to avoid scope problems
             base = this;
 
@@ -708,7 +730,6 @@
             $currentSlide = $container.children(":eq(" + currentSlideIndex + ")");
 
             // Style variables
-            activeSlideClass = base.config.activeSlideClass;
             width = base.data.width;
 
             // Get position of current slide
@@ -718,10 +739,7 @@
 
             // ---
 
-            // Clear old active class
-            $slides.removeClass(activeSlideClass);
-            // Set new active class
-            $slide.addClass(activeSlideClass);
+            base._setActive($slides, $slide);
 
             // ---
 
@@ -782,8 +800,29 @@
             $container.on("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd", function () {
                 $.data(base, "isAnimating", false);
                 $.data(base, "justTouched", false);
+                
                 $container.unbind("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd");
             });
+        },
+
+        /* Update active slide
+        **********************************************************/
+        _setActive: function ($slides, $slide) {
+            var base = this, activeSlideClass, pager;
+
+            activeSlideClass = base.config.activeSlideClass;
+            // Clear old active class
+            $slides.removeClass(activeSlideClass);
+            // Set new active class
+            $slide.addClass(activeSlideClass);
+
+            // Set active page in pager
+            if (base.config.pagerNav)
+            {
+                pager = $("." + base.config.pagerClass, base.$elem);
+                pager.children().removeClass("act");
+                pager.find("[rel=" + $slide.index() + "]").addClass("act");
+            }
         },
 
         /* Auto-size the slider
