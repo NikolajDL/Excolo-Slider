@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 1.0.2 (15-JUNE-2013)
+ * Version: 1.0.3 (15-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -36,8 +36,8 @@
         /* Default Configuration
         **********************************************************/
         defaults: {
-            width: 800, // 580
-            height: 530,    // 380
+            width: 800,
+            height: 530,
             autoSize: true,
             keyboardNav: true,
             touchNav: true,
@@ -716,7 +716,7 @@
         /* Perform a slide
         **********************************************************/
         _slide: function (postalign) {
-            var base, nextSlideIndex, $container, $slides, $slide, width, leftPos;
+            var base, nextSlideIndex, $container, $slides, $slide, leftPos;
             // Define variable to avoid scope problems
             base = this;
 
@@ -727,9 +727,6 @@
             $container = $(".slide-wrapper", base.$elem);
             $slides = $container.children();
             $slide = $container.children(":eq(" + nextSlideIndex + ")");
-
-            // Style variables
-            width = base.data.width;
 
             // Get the position of the slide we are heading for
             leftPos = Math.round($slide.position().left);
@@ -753,6 +750,8 @@
                 $container.on("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd", function () {
                     $.data(base, "currentSlide", nextSlideIndex);
                     $container.unbind("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd");
+
+                    // Post-Align the slides in a line to prepare for the transition animation
                     if (postalign) base._alignSlides(leftPos);
                 });
             } else {
