@@ -78,6 +78,14 @@ Examples can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/
 Change Log
 ============
 
+2013-06-26 - **v1.0.4**
+
+* Added non-minimized js script to NuGet package ([excolo](https://github.com/excolo))
+
+2013-06-15 - **v1.0.3**
+
+* Code cleaning ([excolo](https://github.com/excolo))
+
 2013-06-15 - **v1.0.0**
 
 * Added the last feature from the issue list - pagination ([excolo](https://github.com/excolo))
