@@ -2,6 +2,7 @@
 Thumbs.db
 ignored/
 testpage.html
+*.bdic
 
 #################
 ## Eclipse

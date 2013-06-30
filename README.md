@@ -10,7 +10,6 @@ Should you find bugs or want to suggest a feature, feel free to post it in an is
 
 Features:
 - AutoPlay Slideshow
-- Keyboard slide navigation
 - Mouse slide navigation
 - Prev/next button navigation
 - HTML5 data-attribute captions

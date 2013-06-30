@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 1.0.4 (26-JUNE-2013)
+ * Version: 1.0.5 (30-JUNE-2013)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
@@ -39,7 +39,6 @@
             width: 800,
             height: 530,
             autoSize: true,
-            keyboardNav: true,
             touchNav: true,
             mouseNav: true,
             prevnextNav: true,
@@ -239,13 +238,6 @@
 
                     $(window).removeAttr('unselectable').unbind('selectstart').css('user-select', null).css('UserSelect', null).css('MozUserSelect', null);
                     return e.stopPropagation();
-                });
-            }
-
-            // Setup keyboard event handler
-            if (base.config.keyboardNav) {
-                $(window).keydown(function (e) {
-                    return base._onKeyboardNav(e);
                 });
             }
 
@@ -492,27 +484,6 @@
                 if (!onlyAhead && base.config.repeat && i > half)
                     i = base.data.totalslides % 2 ? -half : -(half - 1);
             });
-        },
-
-        /* Handler for keyboard events
-        **********************************************************/
-        _onKeyboardNav: function (e) {
-            var base, key;
-            // Define variable to avoid scope problems
-            base = this;
-
-            key = e.which;
-            switch (key) {
-                case 37:
-                    base.previous();
-                    base._manualInterference();
-                    break;
-                case 39:
-                    base.next();
-                    base._manualInterference();
-                    break;
-            }
-            e.preventDefault();
         },
 
         /* Handling the start of the movement
