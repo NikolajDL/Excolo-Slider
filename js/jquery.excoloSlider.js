@@ -57,12 +57,9 @@
             animationTimingFunction: "linear",
             prevButtonClass: "slide-prev",
             nextButtonClass: "slide-next",
-            prevButtonImage: "Images/prev.png",
-            nextButtonImage: "Images/next.png",
             activeSlideClass: "es-active",
             slideCaptionClass: "es-caption",
             pagerClass: "es-pager",
-            pagerImage: "Images/pagericon.png"
         },
 
         /* Initialization function
@@ -108,8 +105,6 @@
                 $wrapper.after("<div class='" + base.config.prevButtonClass + "'>");
                 $next = $("." + base.config.nextButtonClass, base.$elem);
                 $prev = $("." + base.config.prevButtonClass, base.$elem);
-                $next.append("<img src='" + base.config.nextButtonImage + "'>");
-                $prev.append("<img src='" + base.config.prevButtonImage + "'>");
                 $buttons = $next.add($prev);
 
                 // Toogle on hover
@@ -133,7 +128,6 @@
                 $children.each(function () {
                     $("<li />").appendTo($("." + base.config.pagerClass, base.$elem))
                         .attr("rel", $(this).index())
-                        .css({ "background-image": "url('" + base.config.pagerImage + "')" })
                         .on("click", function () {
                             $.data(base, "nextSlide", parseInt($(this).attr("rel")));
                             base._prepareslides(true);

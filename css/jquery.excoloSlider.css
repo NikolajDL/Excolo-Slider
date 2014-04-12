@@ -30,6 +30,21 @@
     background-color: rgba(255,255,255,0.8);
     padding: 0px;
 }
+.slider .slide-prev:before, .slider .slide-next:before {
+	display: block;
+	width: 48px;
+	height: 48px;
+	font-size: 40px;
+	line-height: 48px;
+	text-align: center;
+	font-weight: bold;
+}
+.slider .slide-next:before{
+	content:">"; 
+}
+.slider .slide-prev:before{
+	content:"<"; 
+}
 .slider .slide-next:hover, .slider .slide-prev:hover {
     background-color: rgba(255,255,255,0.9);
 }
@@ -62,23 +77,22 @@ ul.es-pager {
     display: block;
     width: 100%;
     text-align: center;
-    margin: 5px 0 0 0;
+    margin: 5px 0;
     padding: 0;
     line-height: 0px;
 }
 ul.es-pager li {
     display: inline-block;
-    margin: 0;
+    margin: 2px;
     padding: 0;
-    height: 16px;
-    width: 16px;
-    /*background-image: url("../Images/pagericon.png");*/
-    background-repeat: no-repeat;
-    background-position: 0 -16px;
+    height: 10px;
+    width: 10px;
     cursor: pointer;
+	border: 1px solid #666;
+	border-radius: 10px;
 }
 ul.es-pager li:hover, ul.es-pager li.act {
-    background-position: 0 0;
+    background-color: #666;
 }
 ul.es-pager li.act {
     cursor: default;
