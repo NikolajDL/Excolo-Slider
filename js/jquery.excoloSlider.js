@@ -70,6 +70,8 @@
             base = this;
             // Introduce defaults that can be extended either globally or using an object literal. 
             base.config = $.extend({}, base.defaults, base.options, base.metadata);
+			base.actionClick={action:false,x:0,y:0};
+			base.currClick={x:0,y:0};
 
             // Initialize plugin data
             base.data = $.data(base);
@@ -118,6 +120,8 @@
                 // Bind click event to buttons
                 $prev.on("click", function (e) { base.previous(); });
                 $next.on("click", function (e) { base.next(); });
+                $prev.on("touchstart", function (e) {e.stopPropagation(); });
+                $next.on("touchstart", function (e) {e.stopPropagation(); });
             }
 
             // Add pager navigation
@@ -197,15 +201,27 @@
                     var eventData = e.originalEvent.touches[0];
                     e.preventDefault();
                     base._onMoveStart(eventData.pageX, eventData.pageY);
+					base.actionClick.x=base.currClick.x=eventData.pageX;
+					base.actionClick.y=base.currClick.y=eventData.pageY;
+					base.actionClick.action=true;
                     return e.stopPropagation();
                 });
                 $container.on("touchmove", function (e) {
                     var eventData = e.originalEvent.touches[0];
                     e.preventDefault();
+					base.actionClick.action=false;
                     base._onMove(eventData.pageX, eventData.pageY);
+					base.currClick.x=eventData.pageX;
+                    base.currClick.y=eventData.pageY;
                     return e.stopPropagation();
                 });
                 $container.on("touchend", function (e) {
+					if ((base.actionClick.action==true)&&(base.actionClick.x==base.currClick.x)&&(base.actionClick.y==base.currClick.y)){
+                        var href=$container.find("."+base.config.activeSlideClass+" a, a."+base.config.activeSlideClass).attr("href");
+                        if ((href!=undefined)&&(href!="")){
+                            window.location=href;
+                        }
+					}
                     e.preventDefault();
                     base._onMoveEnd();
                     return e.stopPropagation();
@@ -217,6 +233,9 @@
                 $container.on("dragstart", function (e) { return false; });
                 $container.on("mousedown", function (e) {
                     base._onMoveStart(e.clientX, e.clientY);
+					base.actionClick.x=e.clientX;
+					base.actionClick.y=e.clientY;
+					base.actionClick.action=false;
 
                     $(window).attr('unselectable', 'on').on('selectstart', false).css('user-select', 'none').css('UserSelect', 'none').css('MozUserSelect', 'none');
                     return e.stopPropagation();
@@ -229,10 +248,26 @@
                 // The mouseup event should also work outside the slide-wrapper container
                 $(window).on("mouseup", function (e) {
                     base._onMoveEnd();
+					if ((base.actionClick.x==e.clientX)&&(base.actionClick.y==e.clientY)){
+						base.actionClick.action=true;
+					}
 
                     $(window).removeAttr('unselectable').unbind('selectstart').css('user-select', null).css('UserSelect', null).css('MozUserSelect', null);
                     return e.stopPropagation();
                 });
+				//ie7 and ie8 support
+                $container.on("mouseup", function (e) {
+                    if ((base.actionClick.x==e.clientX)&&(base.actionClick.y==e.clientY)){
+						base.actionClick.action=true;
+					}
+                });
+				//prevet click action on link if mouse drag
+				$container.on("click", function (e) {
+                    if (base.actionClick.action!=true){
+                        e.stopPropagation();
+						e.preventDefault();
+					}
+				});
             }
 
             // Auto-size before preparing slides
@@ -416,7 +451,7 @@
             // Jquery objects
             $container = $(".slide-wrapper", base.$elem);
             $slides = $container.children();
-            $slide = $container.children(":eq(" + nextSlideIndex + ")");
+            $slide = $container.children().eq(nextSlideIndex);
 
             // Get position of goal slide
             leftPos = $slide.position().left;
@@ -427,7 +462,7 @@
             if (base.config.animationCssTransitions && base.data.browserEnginePrefix) {
                 base._transition((-leftPos), 0);
             } else {
-                $container.position().left = -leftPos;
+                $container.css("left",-leftPos);
             }
 
             // Align the slides to prepare for next transition
@@ -525,7 +560,7 @@
             if (!base.data.scrolling && !base.data.isAnimating)
             {
                 // Get the position of the slide we are heading for
-                $slide = $container.children(":eq(" + base.data.nextSlide + ")");
+                $slide = $container.children().eq(base.data.nextSlide);
                 leftPos = $slide.position().left;
 
                 // Get the browser engine prefix - if any
@@ -568,7 +603,7 @@
             $.data(base, "justTouched", true);
 
             // Get the position of the slide we are heading for
-            $slide = $container.children(":eq(" + base.data.nextSlide + ")");
+            $slide = $container.children().eq(base.data.nextSlide);
             leftPos = $slide.position().left;
 
             // If we've slided at least half the width of the slide - slide to next
@@ -629,7 +664,7 @@
             // Retrieve goalPosition if undefined
             if (goalPosition === undefined)
             {
-                $slide = $container.children(":eq(" + base.data.nextSlide + ")");
+                $slide = $container.children().eq(base.data.nextSlide);
                 goalPosition = $slide.position().left;
             }
 
@@ -647,8 +682,8 @@
             // If our buffer is below half the total $slides, we need to increase it.
             bufferLength = 0;
             $slides.each(function () {
-                var l = $(this).position().left;
-                if (l > goalPosition - width)
+                var l = Math.round($(this).position().left);
+                if (l > Math.round(goalPosition - width))
                     bufferLength++;
             });
             // Calculate how much short on buffer we are
@@ -691,7 +726,7 @@
             // Jquery objects
             $container = $(".slide-wrapper", base.$elem);
             $slides = $container.children();
-            $slide = $container.children(":eq(" + nextSlideIndex + ")");
+            $slide = $container.children().eq(nextSlideIndex);
 
             // Get the position of the slide we are heading for
             leftPos = Math.round($slide.position().left);
