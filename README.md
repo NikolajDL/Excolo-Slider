@@ -75,51 +75,11 @@ Examples
 Examples can be seen on [our GitHub page](http://excolo.github.io/Excolo-Slider/)
 
 
-Change Log
+Relative Project
 ============
+- [EL-shadow GitHub page](https://github.com/EL-shadow/Excolo-Slider)
+- [Excolo GitHub page](https://github.com/Excolo/Excolo-Slider)
 
-2013-06-26 - **v1.0.4**
-
-* Added non-minimized js script to NuGet package ([excolo](https://github.com/excolo))
-
-2013-06-15 - **v1.0.3**
-
-* Code cleaning ([excolo](https://github.com/excolo))
-
-2013-06-15 - **v1.0.0**
-
-* Added the last feature from the issue list - pagination ([excolo](https://github.com/excolo))
-* Cleaned up the code a bit ([excolo](https://github.com/excolo))
-
-2013-06-13 - **v0.4.0**
-
-* Added HTML5 data-attribute captions ([excolo](https://github.com/excolo))
-
-2013-06-13 - **v0.3.5**
-
-* Updated jQuery.org plugin gallery manifest ([excolo](https://github.com/excolo))
-
-2013-06-13 - **v0.3.4**
-
-* Removed text-selection when using mouse navigation ([excolo](https://github.com/excolo))
-* Created a NuGet package for easy installation on ASP.NET projects ([excolo](https://github.com/excolo))
-
-2013-06-13 - **v0.3.3**
-
-* Increased browser support ([excolo](https://github.com/excolo))
-
-2013-06-10 - **v0.3.1**
-
-* Added previous/next button navigation ([excolo](https://github.com/excolo))
-* Added a stylesheet for default styling of slider ([excolo](https://github.com/excolo))
-
-2013-06-07 - **v0.2.3**
-
-* Added mouse navigation ([excolo](https://github.com/excolo))
-
-2013-05-20 - **v0.1.4**
-
-* Initial version ([excolo](https://github.com/excolo))
 
 License
 ============
