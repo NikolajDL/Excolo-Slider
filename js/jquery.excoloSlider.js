@@ -10,7 +10,15 @@
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
  */
-; (function ($, window, document, undefined) {
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
     var Plugin;
 
     /* Plugin Definition
@@ -900,4 +908,4 @@
             new Plugin(this, options).init();
         });
     };
-})(jQuery, window, document);
+}));
