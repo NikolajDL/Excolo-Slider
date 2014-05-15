@@ -5,7 +5,7 @@
  * http://excolo.github.io/Excolo-Slider/
  *
  * Author: Nikolaj Dam Larsen
- * Version: 1.0.5 (30-JUNE-2013)
+ * Version: 1.1.0 (16-MAY-2014)
  *
  * Released under the MIT license
  * https://github.com/Excolo/ExcoloSlider/blob/master/LICENSE
