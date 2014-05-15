@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=BenchNine:400);
+
 /* slider
 ----------------------------------------------------------*/
 .slider {
@@ -30,15 +32,17 @@
 	width: 48px;
 	height: 48px;
 	font-size: 40px;
-	line-height: 48px;
+	line-height: 50px;
 	text-align: center;
-	font-weight: bold;
+    font-family: 'BenchNine', sans-serif;
+    position: absolute;
 }
-.slider .slide-next:before{
-	content:">"; 
-}
-.slider .slide-prev:before{
+.slider .slide-prev:before {
 	content:"<"; 
+}
+.slider .slide-next:before {
+    left: 3px;  /* for better central alignment */
+	content:">"; 
 }
 .slider .slide-next:hover, .slider .slide-prev:hover {
     background-color: rgba(255,255,255,0.9);
@@ -65,7 +69,7 @@ ul.es-pager {
     display: block;
     width: 100%;
     text-align: center;
-    margin: 5px 0;
+    margin: 7px 0;
     padding: 0;
     line-height: 0px;
 }
@@ -73,17 +77,17 @@ ul.es-pager li {
     display: inline-block;
     margin: 2px;
     padding: 0;
-    height: 10px;
-    width: 10px;
+    height: 7px;
+    width: 7px;
     cursor: pointer;
-	border: 1px solid #666;
-	border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -khtml-border-radius: 10px;
+	border: 2px solid #888;
+	border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -khtml-border-radius: 7px;
 }
 ul.es-pager li:hover, ul.es-pager li.act {
-    background-color: #666;
+    background-color: #888;
 }
 ul.es-pager li.act {
     cursor: default;
