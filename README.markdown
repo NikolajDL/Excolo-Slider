@@ -85,4 +85,4 @@ License
 ============
 Free for both personal and commercial use.
 
-Copyright (c) 2013 Nikolaj Dam Larsen. Released under the [MIT license](https://github.com/Excolo/Excolo-Slider/blob/master/MIT-LICENSE).
+Copyright (c) 2013 Nikolaj Dam Larsen. Released under the [MIT license](https://github.com/Excolo/Excolo-Slider/blob/master/LICENSE).

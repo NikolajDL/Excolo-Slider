@@ -8,7 +8,7 @@
  * Version: 1.0.5 (30-JUNE-2013)
  *
  * Released under the MIT license
- * https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE
+ * https://github.com/Excolo/ExcoloSlider/blob/master/LICENSE
  */
 (function (factory) {
     if (typeof define === 'function' && define.amd) {

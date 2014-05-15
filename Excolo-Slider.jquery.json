@@ -1,7 +1,7 @@
 {
     "name": "Excolo-Slider",
     "title": "jQuery Excolo Slider",
-    "description": "YAJQS - Yet another jQuery slider/carousel. I was fed up with the good slider plugins being commercial, so I decided to make a decent open-source variant. Installable as a NuGet package from the NuGet.org package feed.",
+    "description": "YAJQS - Yet another jQuery carousel. I was fed up with the good carousel plugins being commercial, so I decided to make a decent open-source variant. Installable as a NuGet package from the NuGet.org package feed.",
     "keywords": [
         "slider",
         "carousel",
@@ -21,7 +21,7 @@
     "licenses": [
         {
             "type": "MIT",
-            "url": "https://github.com/Excolo/ExcoloSlider/blob/master/MIT-LICENSE"
+            "url": "https://github.com/Excolo/ExcoloSlider/blob/master/LICENSE"
         }
     ],
     "bugs": "https://github.com/Excolo/Excolo-Slider/issues",
