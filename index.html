@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset='utf-8'>
@@ -28,18 +28,8 @@
     <link href="stylesheets/jquery.excoloSlider.css" rel="stylesheet" />
     <script>
         $(function () {
-            $("#topslider").excoloSlider({
-
-                prevButtonImage: "images/prev.png",
-                nextButtonImage: "images/next.png",
-                pagerImage: "images/pagericon.png"
-            });
-            $("#sliderA").excoloSlider({
-
-                prevButtonImage: "images/prev.png",
-                nextButtonImage: "images/next.png",
-                pagerImage: "images/pagericon.png"
-            });
+            $("#topslider").excoloSlider();
+            $("#sliderA").excoloSlider();
         });
     </script>
   </head>
@@ -110,14 +100,6 @@
                 jquery.excoloSlider.css
             </code>
             <p>These can be inserted in whatever folder you wish.</p>
-            <p>If you use the previous/next navigation or pagination, you should also insert the image files:</p>
-            <code class="brush: plain; toolbar: false;">
-                prev.png
-                next.png
-                pagericon.png
-            </code>
-            <p>The plugin looks for these images in the folder called <em>Images</em> relative to the page where the plugin is used. 
-                The name and location of these image files can be changed using the plugin options presented further down this page, under Configuration.</p>
 
             <p>In the header of your website, you insert the references to jquery and the slider plugin:</p> 
             <code class="brush: html; toolbar: false;">

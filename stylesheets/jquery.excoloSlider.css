@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=BenchNine:400);
+
 /* slider
 ----------------------------------------------------------*/
 .slider {
@@ -8,37 +10,42 @@
 .slide > * {
     max-width: 100%;
 }
-.slider .slide-prev {
+.slider .slide-prev , .slider .slide-next{
     cursor: pointer;
     height: 48px;
     width: 48px;
     position: absolute;
-    left: 0;
     top: 50%;
     margin-top: -24px;
     background-color: rgba(255,255,255,0.8);
     padding: 0px;
+	opacity: 0.8;
 }
-.slider .slide-next {
-    cursor: pointer;
-    height: 48px;
-    width: 48px;
+.slider .slide-prev  {
+	left: 0;
+}
+.slider .slide-next  {
+	right: 0;
+}
+.slider .slide-prev:before, .slider .slide-next:before {
+	display: block;
+	width: 48px;
+	height: 48px;
+	font-size: 40px;
+	line-height: 50px;
+	text-align: center;
+    font-family: 'BenchNine', sans-serif;
     position: absolute;
-    right: 0;
-    top: 50%;
-    margin-top: -24px;
-    background-color: rgba(255,255,255,0.8);
-    padding: 0px;
+}
+.slider .slide-prev:before {
+	content:"<"; 
+}
+.slider .slide-next:before {
+    left: 3px;  /* for better central alignment */
+	content:">"; 
 }
 .slider .slide-next:hover, .slider .slide-prev:hover {
     background-color: rgba(255,255,255,0.9);
-}
-.slider .slide-next img, .slider .slide-prev img {
-    position: relative;
-    top: 0;
-    left: 0;
-    max-height: 100%;
-    max-width: 100%;
 }
 .es-caption {
     position: absolute;
@@ -62,23 +69,25 @@ ul.es-pager {
     display: block;
     width: 100%;
     text-align: center;
-    margin: 5px 0 0 0;
+    margin: 7px 0;
     padding: 0;
     line-height: 0px;
 }
 ul.es-pager li {
     display: inline-block;
-    margin: 0;
+    margin: 2px;
     padding: 0;
-    height: 16px;
-    width: 16px;
-    /*background-image: url("../Images/pagericon.png");*/
-    background-repeat: no-repeat;
-    background-position: 0 -16px;
+    height: 7px;
+    width: 7px;
     cursor: pointer;
+	border: 2px solid #888;
+	border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -khtml-border-radius: 7px;
 }
 ul.es-pager li:hover, ul.es-pager li.act {
-    background-position: 0 0;
+    background-color: #888;
 }
 ul.es-pager li.act {
     cursor: default;
