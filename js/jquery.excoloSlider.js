@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * Excolo Slider - A simple jquery slider
  *
  * Examples and documentation at: 
@@ -340,6 +340,8 @@
             // Update data
             $.data(base, "nextSlide", nextSlide);
 
+            base.$elem.trigger('excolo.prev');
+
             // Perform sliding to the previous slide
             return this._slide();
         },
@@ -372,6 +374,8 @@
 
             // Update data
             $.data(base, "nextSlide", nextSlide);
+
+            base.$elem.trigger('excolo.next');
 
             // Perform sliding to the next slide
             return this._slide();
