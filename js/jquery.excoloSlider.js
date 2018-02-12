@@ -251,7 +251,7 @@
                 // The mousemove event should also work outside the slide-wrapper container
                 $(window).on("mousemove", function (e) {
                     base._onMove(e.clientX, e.clientY);
-                    return e.stopPropagation();
+                    return;
                 });
                 // The mouseup event should also work outside the slide-wrapper container
                 $(window).on("mouseup", function (e) {
